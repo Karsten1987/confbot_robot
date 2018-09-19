@@ -9,13 +9,13 @@
   <material name="white">
     <color rgba="1.0 1.0 1.0 1.0"/>
   </material>
+
   <link name="base_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <box size="1.0 1.0 0.1"/>
+        <mesh filename="package://confbot_description/meshes/confbot.dae"/>
       </geometry>
-      <material name="white"/>
     </visual>
   </link>
   <joint name="laser_frame" type="fixed">
@@ -41,9 +41,9 @@
     <visual>
       <origin rpy="1.57 0 0" xyz="0 0 0"/>
       <geometry>
-        <cylinder radius="0.5" length="0.2"/>
+        <cylinder radius="0.3" length="0.2"/>
       </geometry>
-      <material name="red"/>
+      <material name="white"/>
     </visual>
   </link>
   <joint name="wheel_r_frame" type="fixed">
@@ -55,9 +55,9 @@
     <visual>
       <origin rpy="1.57 0 0" xyz="0 0 0"/>
       <geometry>
-        <cylinder radius="0.5" length="0.2"/>
+        <cylinder radius="0.3" length="0.2"/>
       </geometry>
-      <material name="red"/>
+      <material name="white"/>
     </visual>
   </link>
 </robot>
