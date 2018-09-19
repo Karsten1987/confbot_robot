@@ -29,7 +29,7 @@ public:
   void
   publish()
   {
-    static auto distance = 3.0f;
+    static auto distance = 1.0f;
     for (size_t i = 0; i < msg_->ranges.size(); ++i) {
       msg_->ranges[i] = distance / sin((msg_->angle_min + i * msg_->angle_increment));
     }
@@ -48,7 +48,7 @@ public:
     msg_ = std::make_shared<sensor_msgs::msg::LaserScan>();
     pub_ = this->create_publisher<sensor_msgs::msg::LaserScan>("scan");
     timer_ = this->create_wall_timer(
-      1s, std::bind(&ConfbotLaser::publish, this));
+      10ms, std::bind(&ConfbotLaser::publish, this));
 
     msg_->header.frame_id = "laser_link";
 
