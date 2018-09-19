@@ -65,7 +65,7 @@ public:
   {
     robot_position_.heading += twist_msg->angular.z;
     robot_position_.x += 2.0 * cos(robot_position_.heading) * twist_msg->linear.x;
-    robot_position_.y += 2.0 * sin(robot_position_.heading) * twist_msg->angular.z;
+    robot_position_.y += 2.0 * sin(robot_position_.heading) * twist_msg->linear.x;
   }
 
 private:
