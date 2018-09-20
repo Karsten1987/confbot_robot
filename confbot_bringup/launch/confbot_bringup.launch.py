@@ -28,5 +28,6 @@ def generate_launch_description():
         Node(package='robot_state_publisher', node_executable='robot_state_publisher',
              output='screen', arguments=[urdf]),
         Node(package='confbot_driver', node_executable='confbot_driver', output='screen'),
-        Node(package='confbot_sensors', node_executable='confbot_laser', output='screen')
+        Node(package='confbot_sensors', node_executable='confbot_laser', output='screen'),
+        Node(package='confbot_tools', node_executable='path_publisher', output='screen')
     ])
