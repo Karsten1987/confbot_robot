@@ -9,8 +9,9 @@ Panels:
         - /TF1
         - /RobotModel1
         - /LaserScan1
-      Splitter Ratio: 0.38277512788772583
-    Tree Height: 777
+        - /Marker1
+      Splitter Ratio: 0.382775128
+    Tree Height: 792
   - Class: rviz_common/Views
     Expanded:
       - /Current View1
@@ -113,12 +114,21 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.10000000149011612
+      Size (m): 0.100000001
       Style: Flat Squares
       Topic: /scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
+      Value: true
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: Marker
+      Namespaces:
+        "": true
+      Queue Size: 10
+      Topic: /path
+      Unreliable: false
       Value: true
   Enabled: true
   Global Options:
