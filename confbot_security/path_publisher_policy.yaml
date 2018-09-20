@@ -1,0 +1,5 @@
+nodes:
+  path_publisher:
+    topics:
+      path:
+        allow: p # can publish on path
