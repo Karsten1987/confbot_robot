@@ -1,8 +1,8 @@
-V	280917003729Z		1000	unknown	/CN=launch_ros
-V	280917003736Z		1001	unknown	/CN=robot_state_publisher
-V	280917003742Z		1002	unknown	/CN=confbot_driver
-V	280917003750Z		1003	unknown	/CN=confbot_laser
-V	280917003805Z		1004	unknown	/CN=path_publisher
-V	280917003812Z		1005	unknown	/CN=rviz
-V	280917004226Z		1006	unknown	/CN=pub_vel
-V	280917010036Z		1007	unknown	/CN=twist_publisher
+V	280918221556Z		1000	unknown	/CN=confbot_driver
+V	280918221609Z		1001	unknown	/CN=confbot_laser
+V	280918221615Z		1002	unknown	/CN=launch_ros
+V	280918221623Z		1003	unknown	/CN=pub_vel
+V	280918221633Z		1004	unknown	/CN=robot_state_publisher
+V	280918221641Z		1005	unknown	/CN=rviz
+V	280918221647Z		1006	unknown	/CN=twist_publisher
+V	280918221906Z		1007	unknown	/CN=safe_zone_publisher
