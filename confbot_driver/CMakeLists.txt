@@ -21,6 +21,11 @@ find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 
+include_directories(include)
+install(
+  DIRECTORY include/
+  DESTINATION include)
+
 add_executable(
   confbot_driver
   src/confbot_driver.cpp)
@@ -37,8 +42,16 @@ ament_target_dependencies(
   "rclcpp"
   "tf2_ros"
   "geometry_msgs")
+add_executable(
+  confbot_all
+  src/confbot_all.cpp)
+ament_target_dependencies(
+  confbot_all
+  "rclcpp"
+  "tf2_ros"
+  "geometry_msgs")
 install(
-  TARGETS confbot_driver twist_publisher
+  TARGETS confbot_driver twist_publisher confbot_all
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
