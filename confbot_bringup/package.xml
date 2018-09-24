@@ -9,11 +9,14 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <depend>ament_index_python</depend>
   <depend>launch</depend>
+  <depend>launch_ros</depend>
   <depend>robot_state_publisher</depend>
   <depend>confbot_description</depend>
   <depend>confbot_driver</depend>
   <depend>confbot_sensors</depend>
+  <depend>confbot_tools</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

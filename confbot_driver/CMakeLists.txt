@@ -17,8 +17,9 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rcutils REQUIRED)
 find_package(tf2_ros REQUIRED)
 
 include_directories(include)
@@ -40,6 +41,7 @@ add_executable(
 ament_target_dependencies(
   twist_publisher
   "rclcpp"
+  "rcutils"
   "tf2_ros"
   "geometry_msgs")
 add_executable(

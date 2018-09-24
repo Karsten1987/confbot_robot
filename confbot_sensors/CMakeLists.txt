@@ -17,7 +17,9 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
+find_package(rcutils REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
 include_directories(include)
@@ -30,7 +32,9 @@ add_executable(
   src/confbot_laser.cpp)
 ament_target_dependencies(
   confbot_laser
+  "rclcpp"
   "rclcpp_lifecycle"
+  "rcutils"
   "sensor_msgs")
 install(
   TARGETS confbot_laser
