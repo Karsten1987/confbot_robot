@@ -10,8 +10,9 @@ Panels:
         - /RobotModel1
         - /LaserScan1
         - /Marker1
-      Splitter Ratio: 0.382775128
-    Tree Height: 792
+        - /Marker2
+      Splitter Ratio: 0.38277512788772583
+    Tree Height: 777
   - Class: rviz_common/Views
     Expanded:
       - /Current View1
@@ -43,16 +44,33 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        base_link:
+          Value: true
+        laser_link:
+          Value: true
+        odom:
+          Value: true
+        wheel_l_link:
+          Value: true
+        wheel_r_link:
+          Value: true
       Marker Scale: 0.5
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        {}
+        odom:
+          base_link:
+            laser_link:
+              {}
+            wheel_l_link:
+              {}
+            wheel_r_link:
+              {}
       Update Interval: 0
       Value: true
-    - Alpha: 0.800000011920929
+    - Alpha: 1
       Class: rviz_default_plugins/RobotModel
       Collision Enabled: false
       Description File: /Users/karsten/workspace/osrf/roscon2018_ws/src/roscon2018/confbot_description/urdf/confbot.urdf
@@ -114,7 +132,7 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.100000001
+      Size (m): 0.10000000149011612
       Style: Flat Squares
       Topic: /scan
       Unreliable: false
@@ -127,7 +145,16 @@ Visualization Manager:
       Namespaces:
         "": true
       Queue Size: 10
-      Topic: /path
+      Topic: /danger_zone
+      Unreliable: false
+      Value: true
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: Marker
+      Namespaces:
+        "": true
+      Queue Size: 10
+      Topic: /safe_zone
       Unreliable: false
       Value: true
   Enabled: true
@@ -145,7 +172,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 11.300629615783691
+      Distance: 13.340093612670898
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -160,10 +187,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.4797964096069336
+      Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.5167171955108643
+      Yaw: 3.17671275138855
     Saved: ~
 Window Geometry:
   Displays:
