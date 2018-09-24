@@ -1,9 +1,9 @@
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----71C9B76C517F43410AF2CA19182285E0"
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----FE868C8CDAF746E57A628FA12308D46C"
 
 This is an S/MIME signed message
 
-------71C9B76C517F43410AF2CA19182285E0
+------FE868C8CDAF746E57A628FA12308D46C
 Content-Type: text/plain
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -28,12 +28,20 @@ Content-Type: text/plain
             <max>230</max>
           </id_range>
         </domains>
+        <publish>
+          <partitions>
+            <partition></partition>
+          </partitions>
+          <topics>
+            <topic>rt/parameter_events</topic>
+          </topics>
+        </publish>
         <subscribe>
           <partitions>
             <partition></partition>
           </partitions>
           <topics>
-            <topic>rt/clock</topic>
+            <topic>rt/parameter_events</topic>
           </topics>
         </subscribe>
         <publish>
@@ -41,15 +49,7 @@ Content-Type: text/plain
             <partition></partition>
           </partitions>
           <topics>
-            <topic>rt/path</topic>
-          </topics>
-        </publish>
-        <publish>
-          <partitions>
-            <partition></partition>
-          </partitions>
-          <topics>
-            <topic>rt/parameter_events</topic>
+            <topic>rt/safe_zone</topic>
           </topics>
         </publish>
         <subscribe>
@@ -57,7 +57,7 @@ Content-Type: text/plain
             <partition></partition>
           </partitions>
           <topics>
-            <topic>rt/parameter_events</topic>
+            <topic>rt/clock</topic>
           </topics>
         </subscribe>
 
@@ -120,7 +120,7 @@ Content-Type: text/plain
   </permissions>
 </dds>
 
-------71C9B76C517F43410AF2CA19182285E0
+------FE868C8CDAF746E57A628FA12308D46C
 Content-Type: application/x-pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -135,12 +135,12 @@ KoZIzj0EAwIDSQAwRgIhANMvrJ4a1XVptWScxcy4vC2teumx8RcL+CQycmUGhL9X
 AiEA+cnuGPzTnLeJ976gRPspUUeV2S6c0EnlwBbbNUy+t5UxggF2MIIBcgIBATAj
 MBYxFDASBgNVBAMMC3Nyb3MydGVzdENBAgkAq0mE2zL/MJMwDQYJYIZIAWUDBAIB
 BQCggeQwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-MTgwOTIxMjIyNDU2WjAvBgkqhkiG9w0BCQQxIgQgueCJy+6N9BDFMDcnG+IuRLay
-rESjAJPOJYPK+Itk95wweQYJKoZIhvcNAQkPMWwwajALBglghkgBZQMEASowCwYJ
+MTgwOTI0MTkyNzAxWjAvBgkqhkiG9w0BCQQxIgQgJB66DeBWiENsz7K0EOnVPrsZ
+3nAMvYAXObP7vjEkj9wweQYJKoZIhvcNAQkPMWwwajALBglghkgBZQMEASowCwYJ
 YIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzAOBggqhkiG9w0DAgIC
 AIAwDQYIKoZIhvcNAwICAUAwBwYFKw4DAgcwDQYIKoZIhvcNAwICASgwCgYIKoZI
-zj0EAwIERjBEAiBgThS84smFeaxBlQfOnZQkfYqCRlHBX+3v4Vv8WREJUQIgOFcq
-yv2TQBcVFLcYHjPmWiQ5gaMvjNi2m79G5Ia6wvY=
+zj0EAwIERjBEAiAQmhySKVW4jB2vEwQmi5Ievrg9Q+uKeakpkDmxH+QTZQIgcN9I
+4t2jyxXLttP1PEDoOiL3w6yZfixW5LcOM4NMw3c=
 
-------71C9B76C517F43410AF2CA19182285E0--
+------FE868C8CDAF746E57A628FA12308D46C--
 

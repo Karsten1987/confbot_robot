@@ -1,5 +1,5 @@
 nodes:
   safe_zone_publisher:
     topics:
-      path:
+      safe_zone:
         allow: p # can publish on path

@@ -20,12 +20,20 @@
             <max>230</max>
           </id_range>
         </domains>
+        <publish>
+          <partitions>
+            <partition></partition>
+          </partitions>
+          <topics>
+            <topic>rt/parameter_events</topic>
+          </topics>
+        </publish>
         <subscribe>
           <partitions>
             <partition></partition>
           </partitions>
           <topics>
-            <topic>rt/clock</topic>
+            <topic>rt/parameter_events</topic>
           </topics>
         </subscribe>
         <publish>
@@ -33,15 +41,7 @@
             <partition></partition>
           </partitions>
           <topics>
-            <topic>rt/path</topic>
-          </topics>
-        </publish>
-        <publish>
-          <partitions>
-            <partition></partition>
-          </partitions>
-          <topics>
-            <topic>rt/parameter_events</topic>
+            <topic>rt/safe_zone</topic>
           </topics>
         </publish>
         <subscribe>
@@ -49,7 +49,7 @@
             <partition></partition>
           </partitions>
           <topics>
-            <topic>rt/parameter_events</topic>
+            <topic>rt/clock</topic>
           </topics>
         </subscribe>
 
