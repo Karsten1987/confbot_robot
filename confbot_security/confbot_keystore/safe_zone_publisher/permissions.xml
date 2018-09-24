@@ -20,6 +20,22 @@
             <max>230</max>
           </id_range>
         </domains>
+        <subscribe>
+          <partitions>
+            <partition></partition>
+          </partitions>
+          <topics>
+            <topic>rt/clock</topic>
+          </topics>
+        </subscribe>
+        <publish>
+          <partitions>
+            <partition></partition>
+          </partitions>
+          <topics>
+            <topic>rt/danger_zone</topic>
+          </topics>
+        </publish>
         <publish>
           <partitions>
             <partition></partition>
@@ -44,14 +60,6 @@
             <topic>rt/safe_zone</topic>
           </topics>
         </publish>
-        <subscribe>
-          <partitions>
-            <partition></partition>
-          </partitions>
-          <topics>
-            <topic>rt/clock</topic>
-          </topics>
-        </subscribe>
 
         <publish>
           <partitions>
