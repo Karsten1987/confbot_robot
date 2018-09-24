@@ -28,6 +28,5 @@ def generate_launch_description():
              output='screen', arguments=[urdf]),
         Node(package='confbot_driver', node_executable='confbot_driver', output='screen'),
         Node(package='confbot_driver', node_executable='twist_publisher', output='screen'),
-        Node(package='confbot_sensors', node_executable='confbot_laser', output='screen'),
-        Node(package='confbot_tools', node_executable='safe_zone_publisher', output='screen')
+        Node(package='confbot_sensors', node_executable='confbot_laser', output='screen', arguments=['--activate']),
     ])
