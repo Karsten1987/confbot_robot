@@ -20,7 +20,6 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description():
-    # TODO(wjwwood): Use a substitution to find share directory once this is implemented in launch
     urdf = os.path.join(get_package_share_directory('confbot_description'),
                         'urdf', 'confbot.urdf')
 
@@ -29,6 +28,6 @@ def generate_launch_description():
              output='screen', arguments=[urdf]),
         Node(package='confbot_driver', node_executable='confbot_driver', output='screen'),
         Node(package='confbot_driver', node_executable='twist_publisher', output='screen'),
-        Node(package='confbot_sensors', node_executable='confbot_laser', output='screen'),
+        Node(package='confbot_sensors', node_executable='confbot_laser', output='screen', arguments=['--activate']),
         Node(package='confbot_tools', node_executable='safe_zone_publisher', output='screen')
     ])
