@@ -27,7 +27,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'path_publisher = confbot_tools.path_publisher:main',
+            'safe_zone_publisher = confbot_tools.safe_zone_publisher:main',
         ],
     },
 )
