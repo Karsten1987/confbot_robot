@@ -40,9 +40,7 @@ public:
       msg_->ranges[i] = distance / sin((msg_->angle_min + i * msg_->angle_increment));
     }
 
-    //rclcpp::TimeSource ts(*this);
     rclcpp::Clock::SharedPtr clock = std::make_shared<rclcpp::Clock>(RCL_ROS_TIME);
-    //ts.attachClock(clock);
     msg_->header.stamp = clock->now();
 
     pub_->publish(msg_);
@@ -58,9 +56,9 @@ public:
 
     msg_->header.frame_id = "laser_link";
 
-    msg_->angle_increment = 1 * DEG2RAD;
-    msg_->angle_min = 45 * DEG2RAD;
-    msg_->angle_max = 135 * DEG2RAD;
+    msg_->angle_increment = 5 * DEG2RAD;
+    msg_->angle_min = 65 * DEG2RAD;
+    msg_->angle_max = 115 * DEG2RAD;
     msg_->ranges.resize((msg_->angle_max - msg_->angle_min) / msg_->angle_increment);
     msg_->range_min = 0.0f;
     msg_->range_max = 10.0f;

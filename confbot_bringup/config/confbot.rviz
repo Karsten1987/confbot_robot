@@ -7,10 +7,6 @@ Panels:
         - /Global Options1
         - /Status1
         - /TF1
-        - /RobotModel1
-        - /LaserScan1
-        - /Marker1
-        - /Marker2
       Splitter Ratio: 0.38277512788772583
     Tree Height: 777
   - Class: rviz_common/Views
@@ -132,7 +128,7 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.10000000149011612
+      Size (m): 0.05000000074505806
       Style: Flat Squares
       Topic: /scan
       Unreliable: false
@@ -172,7 +168,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 13.340093612670898
+      Distance: 13.815640449523926
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -187,10 +183,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5697963237762451
+      Pitch: 1.5297963619232178
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.17671275138855
+      Yaw: 3.1467127799987793
     Saved: ~
 Window Geometry:
   Displays:
