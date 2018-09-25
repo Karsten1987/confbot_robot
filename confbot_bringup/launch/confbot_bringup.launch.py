@@ -15,7 +15,9 @@
 import os
 
 from ament_index_python.packages import get_package_share_directory
+
 from launch import LaunchDescription
+
 from launch_ros.actions import Node
 
 
@@ -24,10 +26,24 @@ def generate_launch_description():
                         'urdf', 'confbot.urdf')
 
     return LaunchDescription([
-        Node(package='robot_state_publisher', node_executable='robot_state_publisher',
-             output='screen', arguments=[urdf]),
-        Node(package='confbot_driver', node_executable='confbot_driver', output='screen'),
-        Node(package='confbot_driver', node_executable='twist_publisher', output='screen'),
-        Node(package='confbot_sensors', node_executable='confbot_laser', output='screen'),
-        Node(package='confbot_tools', node_executable='safe_zone_publisher', output='screen')
+        Node(
+            package='robot_state_publisher',
+            node_executable='robot_state_publisher',
+            output='screen', arguments=[urdf]),
+        Node(
+            package='confbot_driver',
+            node_executable='confbot_driver',
+            output='screen'),
+        Node(
+            package='confbot_driver',
+            node_executable='twist_publisher',
+            output='screen'),
+        Node(
+            package='confbot_sensors',
+            node_executable='confbot_laser',
+            output='screen'),
+        Node(
+            package='confbot_tools',
+            node_executable='safe_zone_publisher',
+            output='screen')
     ])
