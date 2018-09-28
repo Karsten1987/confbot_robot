@@ -27,8 +27,8 @@ public:
     auto publish_message =
       [this]() -> void
       {
-        msg_->linear.x = 0.1;
-        msg_->angular.z = 0.1;
+        msg_->linear.x = speed_;
+        msg_->angular.z = speed_;
         pub_->publish(msg_);
       };
 
@@ -39,10 +39,48 @@ public:
     timer_ = this->create_wall_timer(100ms, publish_message);
   }
 
+  void init() {
+    parameters_client_ = std::make_shared<rclcpp::SyncParametersClient>(shared_from_this());
+    while (!parameters_client_->wait_for_service(1s)) {
+      if (!rclcpp::ok()) {
+        RCLCPP_ERROR(get_logger(), "Interrupted while waiting for the service. Exiting.")
+      }
+      RCLCPP_INFO(get_logger(), "service not available, waiting again...")
+    }
+
+    // Setup callback for changes to parameters.
+    param_sub_ = parameters_client_->on_parameter_event(
+      [this](const rcl_interfaces::msg::ParameterEvent::SharedPtr event) -> void
+      {
+        for (auto & new_parameter : event->new_parameters) {
+          RCLCPP_INFO(get_logger(),
+            "set new parameter \"%s\" to \"%f\"",
+            new_parameter.name.c_str(),
+            new_parameter.value.double_value);
+          if (new_parameter.name == "speed") {
+            speed_ = new_parameter.value.double_value;
+          }
+        }
+        for (auto & changed_parameter : event->changed_parameters) {
+          RCLCPP_INFO(get_logger(),
+            "changed parameter \"%s\" to \"%f\"",
+            changed_parameter.name.c_str(),
+            changed_parameter.value.double_value);
+          if (changed_parameter.name == "speed") {
+            speed_ = changed_parameter.value.double_value;
+          }
+        }
+      });
+  }
+
 private:
-  std::shared_ptr<geometry_msgs::msg::Twist> msg_;
+  geometry_msgs::msg::Twist::SharedPtr msg_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pub_;
   rclcpp::TimerBase::SharedPtr timer_;
+  rclcpp::SyncParametersClient::SharedPtr parameters_client_;
+  rclcpp::Subscription<rcl_interfaces::msg::ParameterEvent>::SharedPtr param_sub_;
+
+  float speed_ = 0.1f;
 };
 
 }  // namespace confbot_driver
