@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 #include <thread>
+#include <cmath>
 
 #include "lifecycle_msgs/msg/transition.hpp"
 

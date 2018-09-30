@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <memory>
 #include <string>
+#include <cmath>
 
 #include "geometry_msgs/msg/twist.hpp"
 
