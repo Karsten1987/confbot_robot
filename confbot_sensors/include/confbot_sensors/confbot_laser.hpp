@@ -47,7 +47,7 @@ public:
     pub_->publish(msg_);
   }
 
-  rcl_lifecycle_transition_key_t
+  rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
   on_configure(const rclcpp_lifecycle::State &)
   {
     msg_ = std::make_shared<sensor_msgs::msg::LaserScan>();
@@ -64,43 +64,43 @@ public:
     msg_->range_min = 0.0f;
     msg_->range_max = 10.0f;
 
-    RCLCPP_DEBUG(get_logger(), "angle inc:\t%f", msg_->angle_increment)
-    RCLCPP_DEBUG(get_logger(), "scan size:\t%zu", msg_->ranges.size())
-    RCLCPP_DEBUG(get_logger(), "scan time increment: \t%f", msg_->time_increment)
-    RCLCPP_INFO(get_logger(), "laser is configured")
+    RCLCPP_DEBUG(get_logger(), "angle inc:\t%f", msg_->angle_increment);
+    RCLCPP_DEBUG(get_logger(), "scan size:\t%zu", msg_->ranges.size());
+    RCLCPP_DEBUG(get_logger(), "scan time increment: \t%f", msg_->time_increment);
+    RCLCPP_INFO(get_logger(), "laser is configured");
 
-    return lifecycle_msgs::msg::Transition::TRANSITION_CALLBACK_SUCCESS;
+    return rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn::SUCCESS;
   }
 
-  rcl_lifecycle_transition_key_t
+  rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
   on_activate(const rclcpp_lifecycle::State &)
   {
     pub_->on_activate();
 
-    RCUTILS_LOG_INFO_NAMED(get_name(), "laser is activated")
+    RCUTILS_LOG_INFO_NAMED(get_name(), "laser is activated");
 
-    return lifecycle_msgs::msg::Transition::TRANSITION_CALLBACK_SUCCESS;
+    return rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn::SUCCESS;
   }
 
-  rcl_lifecycle_transition_key_t
+  rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
   on_deactivate(const rclcpp_lifecycle::State &)
   {
     pub_->on_deactivate();
 
-    RCUTILS_LOG_INFO_NAMED(get_name(), "laser is deactivated")
+    RCUTILS_LOG_INFO_NAMED(get_name(), "laser is deactivated");
 
-    return lifecycle_msgs::msg::Transition::TRANSITION_CALLBACK_SUCCESS;
+    return rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn::SUCCESS;
   }
 
-  rcl_lifecycle_transition_key_t
+  rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn
   on_cleanup(const rclcpp_lifecycle::State &)
   {
     timer_.reset();
     pub_.reset();
 
-    RCUTILS_LOG_INFO_NAMED(get_name(), "laser node is cleaning up")
+    RCUTILS_LOG_INFO_NAMED(get_name(), "laser node is cleaning up");
 
-    return lifecycle_msgs::msg::Transition::TRANSITION_CALLBACK_SUCCESS;
+    return rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn::SUCCESS;
   }
 
 private:

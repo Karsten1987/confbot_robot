@@ -40,37 +40,24 @@ public:
   }
 
   void init() {
-    parameters_client_ = std::make_shared<rclcpp::SyncParametersClient>(shared_from_this());
-    while (!parameters_client_->wait_for_service(1s)) {
-      if (!rclcpp::ok()) {
-        RCLCPP_ERROR(get_logger(), "Interrupted while waiting for the service. Exiting.")
-      }
-      RCLCPP_INFO(get_logger(), "service not available, waiting again...")
-    }
-
     // Setup callback for changes to parameters.
-    param_sub_ = parameters_client_->on_parameter_event(
-      [this](const rcl_interfaces::msg::ParameterEvent::SharedPtr event) -> void
+    auto parameter_change_cb =
+      [this](std::vector<rclcpp::Parameter> parameters) -> rcl_interfaces::msg::SetParametersResult
       {
-        for (auto & new_parameter : event->new_parameters) {
+        auto result = rcl_interfaces::msg::SetParametersResult();
+        result.successful = true;
+        for (auto parameter : parameters) {
           RCLCPP_INFO(get_logger(),
-            "set new parameter \"%s\" to \"%f\"",
-            new_parameter.name.c_str(),
-            new_parameter.value.double_value);
-          if (new_parameter.name == "speed") {
-            speed_ = new_parameter.value.double_value;
+            "set parameter \"%s\" to \"%f\"",
+            parameter.get_name().c_str(),
+            parameter.as_double());
+          if (parameter.get_name() == "speed") {
+            speed_ = parameter.as_double();
           }
         }
-        for (auto & changed_parameter : event->changed_parameters) {
-          RCLCPP_INFO(get_logger(),
-            "changed parameter \"%s\" to \"%f\"",
-            changed_parameter.name.c_str(),
-            changed_parameter.value.double_value);
-          if (changed_parameter.name == "speed") {
-            speed_ = changed_parameter.value.double_value;
-          }
-        }
-      });
+        return result;
+      };
+    this->register_param_change_callback(parameter_change_cb);
   }
 
 private:
