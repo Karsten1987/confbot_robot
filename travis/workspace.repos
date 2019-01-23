@@ -1,0 +1,5 @@
+repositories:
+  karsten1987/roscon2018:
+    type: git
+    url: https://github.com/karsten1987/roscon2018.git
+    version: master
