@@ -1,3 +1,17 @@
+// Copyright 2018 Open Source Robotics Foundation, Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #ifndef CONFBOT_DRIVER__CONFBOT_DRIVER_HPP_
 #define CONFBOT_DRIVER__CONFBOT_DRIVER_HPP_
 
@@ -12,8 +26,6 @@
 #include "rclcpp/rclcpp.hpp"
 
 #include "tf2_ros/static_transform_broadcaster.h"
-
-using namespace std::chrono_literals;
 
 namespace confbot_driver
 {
@@ -46,7 +58,7 @@ struct RobotPosition
 class ConfbotDriver : public rclcpp::Node
 {
 public:
-  explicit ConfbotDriver()
+  ConfbotDriver()
   : Node("confbot_driver")
   {}
 
@@ -58,13 +70,15 @@ public:
     msg_.child_frame_id = "base_link";
 
     tf_broadcaster_ = std::make_shared<tf2_ros::StaticTransformBroadcaster>(shared_from_this());
-    timer_ = this->create_wall_timer(100ms, std::bind(&ConfbotDriver::update_odometry, this));
+    timer_ = this->create_wall_timer(
+      std::chrono::milliseconds(100), std::bind(&ConfbotDriver::update_odometry, this));
 
     cmd_vel_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
       "cmd_vel", std::bind(&ConfbotDriver::update_position, this, std::placeholders::_1));
   }
 
-  void update_odometry() {
+  void update_odometry()
+  {
     robot_position_.heading += vel_ang_;
     robot_position_.x += 2.0 * cos(robot_position_.heading) * vel_lin_;
     robot_position_.y += 2.0 * sin(robot_position_.heading) * vel_lin_;
@@ -80,7 +94,6 @@ public:
   }
 
 private:
-
   float vel_lin_ = 0.0f;
   float vel_ang_ = 0.0f;
 

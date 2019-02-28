@@ -1,3 +1,17 @@
+// Copyright 2018 Open Source Robotics Foundation, Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #ifndef CONFBOT_DRIVER__TWIST_PUBLISHER_HPP_
 #define CONFBOT_DRIVER__TWIST_PUBLISHER_HPP_
 
@@ -5,13 +19,12 @@
 #include <cstdio>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "rclcpp/rclcpp.hpp"
 #include "rcutils/cmdline_parser.h"
 
 #include "geometry_msgs/msg/twist.hpp"
-
-using namespace std::chrono_literals;
 
 namespace confbot_driver
 {
@@ -19,7 +32,7 @@ namespace confbot_driver
 class TwistPublisher : public rclcpp::Node
 {
 public:
-  explicit TwistPublisher()
+  TwistPublisher()
   : Node("twist_publisher")
   {
     msg_ = std::make_shared<geometry_msgs::msg::Twist>();
@@ -36,10 +49,11 @@ public:
     custom_qos_profile.depth = 7;
     pub_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", custom_qos_profile);
 
-    timer_ = this->create_wall_timer(100ms, publish_message);
+    timer_ = this->create_wall_timer(std::chrono::milliseconds(100), publish_message);
   }
 
-  void init() {
+  void init()
+  {
     // Setup callback for changes to parameters.
     auto parameter_change_cb =
       [this](std::vector<rclcpp::Parameter> parameters) -> rcl_interfaces::msg::SetParametersResult

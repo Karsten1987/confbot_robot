@@ -1,12 +1,26 @@
+// Copyright 2018 Open Source Robotics Foundation, Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #ifndef CONFBOT_SENSORS__CONFBOT_LASER_HPP_
 #define CONFBOT_SENSORS__CONFBOT_LASER_HPP_
 
 #include <chrono>
+#include <cmath>
 #include <iostream>
 #include <memory>
 #include <string>
 #include <thread>
-#include <cmath>
 
 #include "lifecycle_msgs/msg/transition.hpp"
 
@@ -20,8 +34,6 @@
 #include "sensor_msgs/msg/laser_scan.hpp"
 
 #define DEG2RAD M_PI / 180.0
-
-using namespace std::chrono_literals;
 
 namespace confbot_sensors
 {
@@ -53,7 +65,7 @@ public:
     msg_ = std::make_shared<sensor_msgs::msg::LaserScan>();
     pub_ = this->create_publisher<sensor_msgs::msg::LaserScan>("scan");
     timer_ = this->create_wall_timer(
-      10ms, std::bind(&ConfbotLaser::publish, this));
+      std::chrono::milliseconds(10), std::bind(&ConfbotLaser::publish, this));
 
     msg_->header.frame_id = "laser_link";
 

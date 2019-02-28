@@ -1,10 +1,25 @@
+# Copyright 2018 Open Source Robotics Foundation, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import math
+
+from geometry_msgs.msg import Twist
 
 import rclpy
 from rclpy.clock import Clock
 from rclpy.node import Node
 
-from geometry_msgs.msg import Twist
 from visualization_msgs.msg import Marker
 
 
@@ -50,7 +65,7 @@ class SafeZonePublisher(Node):
         # https://www.yobi3d.com/
         # https://www.yobi3d.com/v/tivZ0KYsrZ/Shark_t.stl
         # mesh is licensed under CC-BY
-        self.shark.mesh_resource = 'file:///Users/karsten/workspace/osrf/roscon2018_ws/src/roscon2018/confbot_description/meshes/Shark_t.stl'
+        self.shark.mesh_resource = 'file:///Users/karsten/workspace/osrf/roscon2018_ws/src/roscon2018/confbot_description/meshes/Shark_t.stl'  # noqa E501
 
     def timer_callback(self):
 
