@@ -3,10 +3,10 @@ FROM ubuntu:bionic
 # setup timezone
 RUN echo 'Etc/UTC' > /etc/timezone && \
     ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
-    apt-get update && apt-get install -q -y tzdata && rm -rf /var/lib/apt/lists/*
+    apt-get -qq update && apt-get -qq install -y tzdata && rm -rf /var/lib/apt/lists/*
 
 # install packages
-RUN apt-get update && apt-get install -q -y \
+RUN apt-get -qq update && apt-get -qq install -y \
     bash-completion \
     dirmngr \
     git \
@@ -31,7 +31,7 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
 # install packages from the ROS repositories
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get -qq update && apt-get -qq install -y --no-install-recommends \
     python3-catkin-pkg-modules \
     python3-colcon-common-extensions \
     python3-rosdep \
@@ -60,34 +60,12 @@ RUN rosdep init \
 
 # clone source
 ENV ROS2_WS /root/ros2_ws
-RUN mkdir -p $ROS2_WS/src
+RUN mkdir -p $ROS2_WS/src/roscon2018
+COPY ./ci_script.bash $ROS2_WS
 COPY ./workspace.repos $ROS2_WS
 WORKDIR $ROS2_WS
 RUN vcs import src < workspace.repos
 
 ENV ROS_DISTRO crystal
-# install dependencies
-RUN apt-get update && rosdep install -y \
-    --from-paths src \
-    --ignore-src \
-    --rosdistro $ROS_DISTRO \
-    && rm -rf /var/lib/apt/lists/*
 
-# build source
-WORKDIR $ROS2_WS
-RUN ["/bin/bash", "-c", "source /opt/ros/$ROS_DISTRO/setup.bash && colcon \
-    build \
-    --cmake-args -DSECURITY=ON --no-warn-unused-cli \
-    --symlink-install"]
-RUN ["/bin/bash", "-c", "source $ROS2_WS/install/setup.bash && colcon \
-    test \
-    --executor sequential \
-    --event-handlers console_direct+"]
-RUN colcon test-result
-
-# setup bashrc
-#RUN cp /etc/skel/.bashrc ~/
-#
-#COPY ./travis_entrypoint.sh /
-#ENTRYPOINT ["/travis_entrypoint.sh"]
-#CMD ["bash"]
+CMD ["bash"]
