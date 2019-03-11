@@ -78,11 +78,11 @@ WORKDIR $ROS2_WS
 RUN ["/bin/bash", "-c", "source /opt/ros/$ROS_DISTRO/setup.bash && colcon \
     build \
     --cmake-args -DSECURITY=ON --no-warn-unused-cli \
-    --symlink-install \
-    --event-handler console_direct+"]
+    --symlink-install"]
 RUN ["/bin/bash", "-c", "source $ROS2_WS/install/setup.bash && colcon \
     test \
-    --event-handler console_direct+"]
+    --executor sequential \
+    --event-handlers console_direct+"]
 RUN colcon test-result
 
 # setup bashrc
