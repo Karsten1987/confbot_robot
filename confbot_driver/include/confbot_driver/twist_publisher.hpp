@@ -61,12 +61,20 @@ public:
         auto result = rcl_interfaces::msg::SetParametersResult();
         result.successful = true;
         for (auto parameter : parameters) {
-          RCLCPP_INFO(get_logger(),
-            "set parameter \"%s\" to \"%f\"",
-            parameter.get_name().c_str(),
-            parameter.as_double());
           if (parameter.get_name() == "speed") {
-            speed_ = parameter.as_double();
+            if (rclcpp::ParameterType::PARAMETER_NOT_SET == parameter.get_type()) {
+              RCLCPP_INFO(this->get_logger(),
+                "cannot delete '%s' as it is a required parameter",
+                parameter.get_name().c_str()
+              );
+              result.successful = false;
+            } else {
+              RCLCPP_INFO(this->get_logger(),
+                "set parameter '%s' to '%f'",
+                parameter.get_name().c_str(),
+                parameter.as_double());
+              speed_ = parameter.as_double();
+            }
           }
         }
         return result;
