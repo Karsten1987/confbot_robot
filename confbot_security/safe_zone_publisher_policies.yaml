@@ -1,8 +1,0 @@
-# safe_zone_publisher_policies.yaml
-nodes:
-  safe_zone_publisher:
-    topics:
-      danger_zone:
-        allow: p # can publish on danger_zone
-      safe_zone:
-        allow: p # can publish on safe_zone
