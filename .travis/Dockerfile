@@ -14,8 +14,6 @@ RUN apt-get -qq update && apt-get -qq install -y \
     libasio-dev \
     libtinyxml2-dev \
     lsb-release \
-    python3-flake8 \
-    python3-flake8-docstrings \
     python3-pip \
     wget \
     && rm -rf /var/lib/apt/lists/*
@@ -41,16 +39,15 @@ RUN apt-get -qq update && apt-get -qq install -y --no-install-recommends \
 # install python packages
 RUN pip3 install -U \
     argcomplete \
-    # TODO(mikaelarguedas) reenable this once ament_flake8 is fixed in Crystal
-    # flake8 \
-    # flake8-blind-except \
-    # flake8-builtins \
-    # flake8-class-newline \
-    # flake8-comprehensions \
-    # flake8-deprecated \
-    # flake8-docstrings \
-    # flake8-import-order \
-    # flake8-quotes \
+    flake8 \
+    flake8-blind-except \
+    flake8-builtins \
+    flake8-class-newline \
+    flake8-comprehensions \
+    flake8-deprecated \
+    flake8-docstrings \
+    flake8-import-order \
+    flake8-quotes \
     pytest-repeat \
     pytest-rerunfailures
 
