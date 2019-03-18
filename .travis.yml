@@ -1,8 +1,11 @@
-sudo: required
-
 services:
   - docker
 
-script:
-  - docker build .travis/. -t roscon2018
-  - docker run -v ${TRAVIS_BUILD_DIR}:/opt/ros2_ws/src/roscon2018 roscon2018 /opt/ros2_ws/src/roscon2018/.travis/ci_script.bash
+install:
+  - git clone --quiet --depth 1 https://github.com/mikaelarguedas/ros2ci.git .ros2ci
+  - cp additional_repos.repos .ros2ci/
+
+matrix:
+  include:
+    # - script: .ros2ci/travis.bash crystal
+    - script: .ros2ci/travis.bash nightly
