@@ -42,7 +42,8 @@ class ConfbotLaser : public rclcpp_lifecycle::LifecycleNode
 {
 public:
   explicit ConfbotLaser(const std::string & node_name, bool intra_process_comms = false)
-  : rclcpp_lifecycle::LifecycleNode(node_name, "", intra_process_comms)
+  : rclcpp_lifecycle::LifecycleNode(node_name,
+      rclcpp::NodeOptions().use_intra_process_comms(intra_process_comms))
   {}
 
   void

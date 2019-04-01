@@ -5,4 +5,4 @@ services:
 
 script:
   - docker build .travis/. -t roscon2018
-  - docker run -v ${TRAVIS_BUILD_DIR}:/root/ros2_ws/src/roscon2018 roscon2018 /root/ros2_ws/src/roscon2018/.travis/ci_script.bash
+  - docker run -v ${TRAVIS_BUILD_DIR}:/opt/ros2_ws/src/roscon2018 roscon2018 /opt/ros2_ws/src/roscon2018/.travis/ci_script.bash

@@ -4,10 +4,9 @@ set -e
 cd $ROS2_WS
 
 # install dependencies
-apt-get -qq update && rosdep install -y \
+rosdep update && apt-get -qq update && rosdep install -y \
   --from-paths src \
-  --ignore-src \
-  --rosdistro $ROS_DISTRO
+  --ignore-src
 
 # setup ros2 environment
 source "/opt/ros/$ROS_DISTRO/setup.bash"
