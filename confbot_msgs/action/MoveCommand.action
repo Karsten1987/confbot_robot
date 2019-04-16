@@ -1,0 +1,12 @@
+# Goal
+builtin_interfaces/Duration duration
+float32 linear_velocity  # in meter/second
+float32 angular_velocity  # in rad/second
+---
+# Result
+float32 distance_traveled  # in meter
+---
+# Feedback
+float32 distance_traveled  # in meter
+builtin_interfaces/Duration time_elapsed
+

@@ -17,44 +17,72 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(confbot_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rclcpp_action REQUIRED)
 find_package(rcutils REQUIRED)
 find_package(tf2_ros REQUIRED)
 
 include_directories(include)
-install(
-  DIRECTORY include/
-  DESTINATION include)
-
 add_executable(
   confbot_driver
-  src/confbot_driver.cpp)
+  src/confbot_driver.cpp
+)
 ament_target_dependencies(
   confbot_driver
+  "confbot_msgs"
+  "geometry_msgs"
   "rclcpp"
+  "rclcpp_action"
   "tf2_ros"
-  "geometry_msgs")
+)
+
 add_executable(
   twist_publisher
-  src/twist_publisher.cpp)
+  src/twist_publisher.cpp
+)
 ament_target_dependencies(
   twist_publisher
   "rclcpp"
   "rcutils"
   "tf2_ros"
-  "geometry_msgs")
+  "geometry_msgs"
+)
+
 add_executable(
   confbot_all
-  src/confbot_all.cpp)
+  src/confbot_all.cpp
+)
 ament_target_dependencies(
   confbot_all
+  "confbot_msgs"
+  "geometry_msgs"
   "rclcpp"
+  "rclcpp_action"
   "tf2_ros"
-  "geometry_msgs")
+)
+
+add_executable(
+  confbot_actionclient
+  src/confbot_actionclient.cpp
+)
+ament_target_dependencies(
+  confbot_actionclient
+  "confbot_msgs"
+  "rclcpp"
+  "rclcpp_action"
+)
+
 install(
-  TARGETS confbot_driver twist_publisher confbot_all
-  DESTINATION lib/${PROJECT_NAME})
+  TARGETS confbot_driver twist_publisher confbot_all confbot_actionclient
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY include/
+  DESTINATION include
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
