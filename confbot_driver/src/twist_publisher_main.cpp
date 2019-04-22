@@ -14,14 +14,13 @@
 
 #include <memory>
 
-#include "confbot_driver/confbot_driver.hpp"
+#include "confbot_driver/nodes/twist_publisher.hpp"
 
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
 
-  auto node = std::make_shared<confbot_driver::ConfbotDriver>();
-  node->init();
+  auto node = std::make_shared<confbot_driver::nodes::TwistPublisher>();
 
   rclcpp::spin(node);
 

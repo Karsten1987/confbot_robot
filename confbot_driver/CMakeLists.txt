@@ -21,46 +21,72 @@ find_package(confbot_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
+find_package(rclcpp_components REQUIRED)
 find_package(rcutils REQUIRED)
 find_package(tf2_ros REQUIRED)
 
-include_directories(include)
-add_executable(
-  confbot_driver
-  src/confbot_driver.cpp
+add_library(
+  confbot_driver_node
+  SHARED
+  src/nodes/confbot_driver.cpp
 )
+target_include_directories(confbot_driver_node PUBLIC include)
 ament_target_dependencies(
-  confbot_driver
+  confbot_driver_node
   "confbot_msgs"
   "geometry_msgs"
   "rclcpp"
   "rclcpp_action"
+  "rclcpp_components"
   "tf2_ros"
+)
+rclcpp_components_register_nodes(confbot_driver_node "confbot_driver::nodes::ConfbotDriver")
+
+add_library(
+  twist_publisher_node
+  SHARED
+  src/nodes/twist_publisher.cpp
+)
+target_include_directories(twist_publisher_node PUBLIC include)
+ament_target_dependencies(
+  twist_publisher_node
+  "rclcpp"
+  "rclcpp_components"
+  "rcutils"
+  "tf2_ros"
+  "geometry_msgs"
+)
+rclcpp_components_register_nodes(twist_publisher_node "confbot_driver::nodes::TwistPublisher")
+
+add_executable(
+  confbot_driver
+  src/confbot_driver_main.cpp
+)
+target_include_directories(confbot_driver PUBLIC include)
+target_link_libraries(
+  confbot_driver
+  confbot_driver_node
 )
 
 add_executable(
   twist_publisher
-  src/twist_publisher.cpp
+  src/twist_publisher_main.cpp
 )
-ament_target_dependencies(
+target_include_directories(twist_publisher PUBLIC include)
+target_link_libraries(
   twist_publisher
-  "rclcpp"
-  "rcutils"
-  "tf2_ros"
-  "geometry_msgs"
+  twist_publisher_node
 )
 
 add_executable(
   confbot_all
   src/confbot_all.cpp
 )
-ament_target_dependencies(
+target_include_directories(confbot_all PUBLIC include)
+target_link_libraries(
   confbot_all
-  "confbot_msgs"
-  "geometry_msgs"
-  "rclcpp"
-  "rclcpp_action"
-  "tf2_ros"
+  confbot_driver_node
+  twist_publisher_node
 )
 
 add_executable(
@@ -75,10 +101,15 @@ ament_target_dependencies(
 )
 
 install(
+  TARGETS confbot_driver_node twist_publisher_node
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+install(
   TARGETS confbot_driver twist_publisher confbot_all confbot_actionclient
   DESTINATION lib/${PROJECT_NAME}
 )
-
 install(
   DIRECTORY include/
   DESTINATION include
