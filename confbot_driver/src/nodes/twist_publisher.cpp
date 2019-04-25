@@ -40,6 +40,7 @@ TwistPublisher::TwistPublisher(rclcpp::NodeOptions options)
 
   timer_ = this->create_wall_timer(std::chrono::milliseconds(100), publish_message);
 
+  this->declare_parameter("speed");
   // Setup callback for changes to parameters.
   auto parameter_change_cb =
     [this](std::vector<rclcpp::Parameter> parameters) -> rcl_interfaces::msg::SetParametersResult
@@ -65,7 +66,7 @@ TwistPublisher::TwistPublisher(rclcpp::NodeOptions options)
       }
       return result;
     };
-  this->register_param_change_callback(parameter_change_cb);
+  this->set_on_parameters_set_callback(parameter_change_cb);
 }
 
 }  // namespace nodes
