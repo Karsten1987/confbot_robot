@@ -13,6 +13,9 @@
 # limitations under the License.
 
 import math
+import os
+
+from ament_index_python import get_package_share_directory
 
 from geometry_msgs.msg import Twist
 
@@ -65,7 +68,9 @@ class SafeZonePublisher(Node):
         # https://www.yobi3d.com/
         # https://www.yobi3d.com/v/tivZ0KYsrZ/Shark_t.stl
         # mesh is licensed under CC-BY
-        self.shark.mesh_resource = 'file:///Users/karsten/workspace/osrf/roscon2018_ws/src/roscon2018/confbot_description/meshes/Shark_t.stl'  # noqa E501
+        confbot_description_share = get_package_share_directory('confbot_description')
+        self.shark.mesh_resource = 'file://' + \
+            os.path.join(confbot_description_share, 'meshes', 'Shark_t.stl')
 
     def timer_callback(self):
 
