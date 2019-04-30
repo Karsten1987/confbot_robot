@@ -22,6 +22,8 @@
 
 using MoveCommand = confbot_msgs::action::MoveCommand;
 
+using namespace std::chrono_literals;
+
 void feedback_callback(
   rclcpp_action::ClientGoalHandle<MoveCommand>::SharedPtr,
   const std::shared_ptr<const MoveCommand::Feedback> feedback,
@@ -38,7 +40,7 @@ int main(int argc, char ** argv)
   auto node = rclcpp::Node::make_shared("confbot_actionclient");
   auto action_client = rclcpp_action::create_client<MoveCommand>(node, "move_command");
 
-  if (!action_client->wait_for_action_server(std::chrono::seconds(10))) {
+  if (!action_client->wait_for_action_server(10s)) {
     RCLCPP_ERROR(node->get_logger(), "Action server not available after waiting");
     return 1;
   }

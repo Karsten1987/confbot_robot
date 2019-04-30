@@ -18,6 +18,8 @@
 
 #include "confbot_driver/nodes/twist_publisher.hpp"
 
+using namespace std::chrono_literals;
+
 namespace confbot_driver
 {
 namespace nodes
@@ -38,7 +40,7 @@ TwistPublisher::TwistPublisher(rclcpp::NodeOptions options)
   custom_qos_profile.depth = 7;
   pub_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", custom_qos_profile);
 
-  timer_ = this->create_wall_timer(std::chrono::milliseconds(100), publish_message);
+  timer_ = this->create_wall_timer(100ms, publish_message);
 
   this->declare_parameter("speed");
   // Setup callback for changes to parameters.

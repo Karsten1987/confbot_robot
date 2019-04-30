@@ -16,6 +16,9 @@
 
 #include "confbot_driver/nodes/confbot_driver.hpp"
 
+
+using namespace std::chrono_literals;
+
 namespace confbot_driver
 {
 namespace nodes
@@ -33,7 +36,7 @@ ConfbotDriver::ConfbotDriver(rclcpp::NodeOptions options)
   tf_broadcaster_ = std::make_shared<tf2_ros::StaticTransformBroadcaster>(
     this->get_node_topics_interface());
   odometry_timer_ = this->create_wall_timer(
-    std::chrono::milliseconds(100), std::bind(&ConfbotDriver::update_odometry, this));
+    100ms, std::bind(&ConfbotDriver::update_odometry, this));
 
   cmd_vel_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
     "cmd_vel", std::bind(&ConfbotDriver::update_velocity, this, std::placeholders::_1));
@@ -141,8 +144,7 @@ ConfbotDriver::handle_accepted(const std::shared_ptr<ServerGoalHandle> goal_hand
 
   cmd_vel_lock_.lock();
 
-  feedback_timer_ = this->create_wall_timer(
-    std::chrono::milliseconds(1000), fnc);
+  feedback_timer_ = this->create_wall_timer(1s, fnc);
 
   vel_lin_ = goal_handle->get_goal()->linear_velocity;
   vel_ang_ = goal_handle->get_goal()->angular_velocity;

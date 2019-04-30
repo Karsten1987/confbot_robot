@@ -15,7 +15,6 @@
 #ifndef CONFBOT_DRIVER__NODES__CONFBOT_DRIVER_HPP_
 #define CONFBOT_DRIVER__NODES__CONFBOT_DRIVER_HPP_
 
-#include <chrono>
 #include <cstdio>
 #include <memory>
 #include <mutex>
