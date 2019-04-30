@@ -52,10 +52,11 @@ int main(int argc, char ** argv)
 
   RCLCPP_INFO(node->get_logger(), "Sending goal");
 
+  auto send_goal_options = rclcpp_action::Client<MoveCommand>::SendGoalOptions();
   // workaround to pass more objects, i. e. the logger, to the function callback
-  auto fcn = std::bind(
+  send_goal_options.feedback_callback = std::bind(
     feedback_callback, std::placeholders::_1, std::placeholders::_2, node->get_logger());
-  auto goal_handle_future = action_client->async_send_goal(goal_msg, fcn);
+  auto goal_handle_future = action_client->async_send_goal(goal_msg, send_goal_options);
 
   if (rclcpp::spin_until_future_complete(node, goal_handle_future) !=
     rclcpp::executor::FutureReturnCode::SUCCESS)
