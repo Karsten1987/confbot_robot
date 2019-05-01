@@ -42,7 +42,7 @@ TwistPublisher::TwistPublisher(rclcpp::NodeOptions options)
 
   timer_ = this->create_wall_timer(100ms, publish_message);
 
-  this->declare_parameter("speed");
+  this->declare_parameter<double>("speed", speed_);
   // Setup callback for changes to parameters.
   auto parameter_change_cb =
     [this](std::vector<rclcpp::Parameter> parameters) -> rcl_interfaces::msg::SetParametersResult
