@@ -18,7 +18,9 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 
+from launch_ros.actions import ComposableNodeContainer
 from launch_ros.actions import Node
+from launch_ros.descriptions import ComposableNode
 
 
 def generate_launch_description():
@@ -31,15 +33,23 @@ def generate_launch_description():
             node_executable='robot_state_publisher',
             output='screen', arguments=[urdf]),
         Node(
-            package='confbot_driver',
-            node_executable='confbot_driver',
-            output='screen'),
-        Node(
-            package='confbot_driver',
-            node_executable='twist_publisher',
-            output='screen'),
-        Node(
             package='confbot_sensors',
             node_executable='confbot_laser',
             output='screen', arguments=['--activate']),
+        ComposableNodeContainer(
+            node_name='confbot_driver_container',
+            node_namespace='',
+            package='rclcpp_components',
+            node_executable='component_container',
+            composable_node_descriptions=[
+                ComposableNode(
+                    package='confbot_driver',
+                    node_plugin='confbot_driver::nodes::ConfbotDriver',
+                    node_name='confbot_driver'),
+                ComposableNode(
+                    package='confbot_driver',
+                    node_plugin='confbot_driver::nodes::TwistPublisher',
+                    node_name='twist_publisher')
+            ],
+            output='screen',)
     ])
