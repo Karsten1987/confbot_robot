@@ -36,7 +36,7 @@ public:
   virtual ~TwistPublisher() = default;
 
 private:
-  geometry_msgs::msg::Twist::SharedPtr msg_;
+  geometry_msgs::msg::Twist msg_;
 
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pub_;
   rclcpp::TimerBase::SharedPtr timer_;

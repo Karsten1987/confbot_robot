@@ -39,7 +39,8 @@ ConfbotDriver::ConfbotDriver(rclcpp::NodeOptions options)
     100ms, std::bind(&ConfbotDriver::update_odometry, this));
 
   cmd_vel_subscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
-    "cmd_vel", std::bind(&ConfbotDriver::update_velocity, this, std::placeholders::_1));
+    "cmd_vel", rclcpp::SystemDefaultsQoS(),
+    std::bind(&ConfbotDriver::update_velocity, this, std::placeholders::_1));
 
   action_server_ = rclcpp_action::create_server<MoveCommand>(
     this->get_node_base_interface(),

@@ -26,19 +26,18 @@ namespace nodes
 {
 
 TwistPublisher::TwistPublisher(rclcpp::NodeOptions options)
-: Node("twist_publisher", options), msg_(std::make_shared<geometry_msgs::msg::Twist>())
+: Node("twist_publisher", options)
 {
   auto publish_message =
     [this]() -> void
     {
-      msg_->linear.x = speed_;
-      msg_->angular.z = speed_;
+      msg_.linear.x = speed_;
+      msg_.angular.z = speed_;
       pub_->publish(msg_);
     };
 
-  rmw_qos_profile_t custom_qos_profile = rmw_qos_profile_default;
-  custom_qos_profile.depth = 7;
-  pub_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", custom_qos_profile);
+  rclcpp::QoS qos(rclcpp::KeepLast(7));
+  pub_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", qos);
 
   timer_ = this->create_wall_timer(100ms, publish_message);
 
