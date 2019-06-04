@@ -179,6 +179,47 @@ In RViz: the laser node is now publishing fake laser data!
 
 ![RViz with laser](images/rviz_with_laser.png)
 
+##### Using components
+
+Terminal 3:
+Listing running components:
+```bash
+$ ros2 component list
+/confbot_driver_container
+  1  /confbot_driver
+  2  /twist_publisher
+```
+
+Unload the `twist_publisher` component:
+```bash
+$ ros2 component unload /confbot_driver_container 2
+Unloaded component 2 from '/confbot_driver_container' container node
+```
+In RViz the robot stops moving
+
+List available components:
+```bash
+$ ros2 component types
+confbot_driver
+  confbot_driver::nodes::ConfbotDriver
+  confbot_driver::nodes::TwistPublisher
+```
+
+Load a component:
+```bash
+$ ros2 component load /confbot_driver_container confbot_driver confbot_driver::nodes::TwistPublisher
+Loaded component 3 into '/confbot_driver_container' container node as '/twist_publisher'
+```
+Robot starts moving again in RViz
+
+```bash
+$ ros2 component list
+/confbot_driver_container
+  1  /confbot_driver
+  3  /twist_publisher
+```
+
+
 ##### Compromise the system
 
 Terminal 3:
