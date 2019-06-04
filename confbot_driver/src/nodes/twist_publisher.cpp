@@ -51,17 +51,34 @@ TwistPublisher::TwistPublisher(rclcpp::NodeOptions options)
       for (auto parameter : parameters) {
         if (parameter.get_name() == "speed") {
           if (rclcpp::ParameterType::PARAMETER_NOT_SET == parameter.get_type()) {
-            RCLCPP_INFO(this->get_logger(),
+            RCLCPP_WARN(this->get_logger(),
               "cannot delete '%s' as it is a required parameter",
               parameter.get_name().c_str()
             );
             result.successful = false;
-          } else {
+          } else if (rclcpp::ParameterType::PARAMETER_DOUBLE == parameter.get_type()) {
             RCLCPP_INFO(this->get_logger(),
               "set parameter '%s' to '%f'",
               parameter.get_name().c_str(),
               parameter.as_double());
             speed_ = parameter.as_double();
+          } else if (rclcpp::ParameterType::PARAMETER_INTEGER == parameter.get_type()) {
+            RCLCPP_INFO(this->get_logger(),
+              "set parameter '%s' to '%f'",
+              parameter.get_name().c_str(),
+              static_cast<double>(parameter.as_int())
+            );
+            speed_ = static_cast<double>(parameter.as_int());
+          } else {
+            RCLCPP_WARN(this->get_logger(),
+              "'%s' is a numerical type of type 'double', the provided type '%s' is not supported, "
+              "compatible types are '%s' and '%s'",
+              parameter.get_name().c_str(),
+              to_string(parameter.get_type()).c_str(),
+              to_string(rclcpp::ParameterType::PARAMETER_DOUBLE).c_str(),
+              to_string(rclcpp::ParameterType::PARAMETER_INTEGER).c_str()
+            );
+            result.successful = false;
           }
         }
       }
