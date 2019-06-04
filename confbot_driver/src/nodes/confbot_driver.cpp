@@ -73,6 +73,8 @@ ConfbotDriver::update_odometry()
   robot_position_.to_transform(msg_.transform);
 
   tf_broadcaster_->sendTransform(msg_);
+
+  reset_speed();
 }
 
 void
