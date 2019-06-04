@@ -7,5 +7,5 @@ install:
 
 matrix:
   include:
-    # - script: .ros2ci/travis.bash crystal
+    - script: .ros2ci/travis.bash dashing
     - script: .ros2ci/travis.bash nightly
