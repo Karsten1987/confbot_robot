@@ -13,7 +13,6 @@
 // limitations under the License.
 #include "confbot_sensors/nodes/confbot_laser.hpp"
 
-#include <chrono>
 #include <cmath>
 #include <iostream>
 #include <memory>
@@ -33,12 +32,12 @@
 
 #define DEG2RAD M_PI / 180.0
 
+using namespace std::chrono_literals;
+
 namespace confbot_sensors
 {
 namespace nodes
 {
-
-#define DEG2RAD M_PI / 180.0
 
 ConfbotLaser::ConfbotLaser(const rclcpp::NodeOptions & options)
 : rclcpp_lifecycle::LifecycleNode("confbot_laser", options),
@@ -62,7 +61,7 @@ ConfbotLaser::on_configure(const rclcpp_lifecycle::State &)
   msg_ = sensor_msgs::msg::LaserScan();
   pub_ = this->create_publisher<sensor_msgs::msg::LaserScan>("scan", rclcpp::SensorDataQoS());
   timer_ = this->create_wall_timer(
-    std::chrono::milliseconds(10), std::bind(&ConfbotLaser::publish, this));
+    10ms, std::bind(&ConfbotLaser::publish, this));
 
   msg_.header.frame_id = "laser_link";
 
