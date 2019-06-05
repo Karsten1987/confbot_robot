@@ -24,7 +24,7 @@ namespace confbot_driver
 namespace nodes
 {
 
-ConfbotDriver::ConfbotDriver(rclcpp::NodeOptions options)
+ConfbotDriver::ConfbotDriver(const rclcpp::NodeOptions & options)
 : Node("confbot_driver", options),
   clock_(RCL_ROS_TIME),
   cmd_vel_lock_(cmd_vel_mutex_, std::defer_lock)

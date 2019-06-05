@@ -25,7 +25,7 @@ namespace confbot_driver
 namespace nodes
 {
 
-TwistPublisher::TwistPublisher(rclcpp::NodeOptions options)
+TwistPublisher::TwistPublisher(const rclcpp::NodeOptions & options)
 : Node("twist_publisher", options)
 {
   auto publish_message =

@@ -66,7 +66,7 @@ class ConfbotDriver : public rclcpp::Node
   using ServerGoalHandle = rclcpp_action::ServerGoalHandle<MoveCommand>;
 
 public:
-  explicit ConfbotDriver(rclcpp::NodeOptions options = rclcpp::NodeOptions());
+  explicit ConfbotDriver(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
 
   virtual ~ConfbotDriver() = default;
 

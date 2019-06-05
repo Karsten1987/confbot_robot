@@ -33,10 +33,6 @@ def generate_launch_description():
             node_executable='robot_state_publisher',
             output='screen', arguments=[urdf]),
         Node(
-            package='confbot_sensors',
-            node_executable='confbot_laser',
-            output='screen'),
-        Node(
             package='confbot_tools',
             node_executable='safe_zone_publisher',
             output='screen'),
@@ -54,6 +50,18 @@ def generate_launch_description():
                     package='confbot_driver',
                     node_plugin='confbot_driver::nodes::TwistPublisher',
                     node_name='twist_publisher')
+            ],
+            output='screen',),
+        ComposableNodeContainer(
+            node_name='confbot_sensors_container',
+            node_namespace='',
+            package='rclcpp_components',
+            node_executable='component_container',
+            composable_node_descriptions=[
+                ComposableNode(
+                    package='confbot_sensors',
+                    node_plugin='confbot_sensors::nodes::ConfbotLaser',
+                    node_name='confbot_laser'),
             ],
             output='screen',)
     ])

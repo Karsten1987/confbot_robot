@@ -14,7 +14,7 @@
 
 #include <memory>
 
-#include "confbot_sensors/confbot_laser.hpp"
+#include "confbot_sensors/nodes/confbot_laser.hpp"
 
 int main(int argc, char * argv[])
 {
@@ -22,7 +22,7 @@ int main(int argc, char * argv[])
 
   rclcpp::executors::SingleThreadedExecutor exe;
 
-  auto laser_node = std::make_shared<confbot_sensors::ConfbotLaser>("confbot_laser");
+  auto laser_node = std::make_shared<confbot_sensors::nodes::ConfbotLaser>();
   if (argc > 1) {
     if (strcmp(argv[1], "--activate") == 0) {
       fprintf(stderr, "activating laser node\n");

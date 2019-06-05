@@ -31,7 +31,7 @@ namespace nodes
 class TwistPublisher : public rclcpp::Node
 {
 public:
-  explicit TwistPublisher(rclcpp::NodeOptions options = rclcpp::NodeOptions());
+  explicit TwistPublisher(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
 
   virtual ~TwistPublisher() = default;
 
