@@ -124,11 +124,23 @@ RUN apt-get -qq update \
         ros-$ROS_DISTRO-rqt-service-caller \
         ros-$ROS_DISTRO-rviz2 \
     && rm -rf /var/lib/apt/lists/*
-# # setup overlay
-# ENV ROS2_OVERLAY_WS /opt/ros2_overlay_ws
-# RUN mkdir -p $ROS2_OVERLAY_WS/src/$REPO_SLUG
-# COPY ./$CI_FOLDER/*.bash $ROS2_OVERLAY_WS/
-# WORKDIR $ROS2_OVERLAY_WS
+
+# setup overlay
+ENV ROS2_OVERLAY_WS /opt/ros2_overlay_ws
+RUN mkdir -p $ROS2_OVERLAY_WS/src/
+WORKDIR $ROS2_OVERLAY_WS
+RUN git clone --depth=1 https://github.com/ros2/rosbag2_bag_v2 $ROS2_OVERLAY_WS/src/rosbag2_bag_v2
+RUN apt-get -qq update && rosdep install -y \
+    --from-paths src \
+    --ignore-src \
+    --skip-keys "libopensplice69 rti-connext-dds-5.3.1" \
+    && rm -rf /var/lib/apt/lists/*
+RUN . /opt/ros/melodic/setup.sh \
+    && . /opt/ros/$ROS_DISTRO/setup.sh \
+    && colcon \
+       build \
+       --merge-install \
+       --cmake-args -DSECURITY=ON -DBUILD_TESTING=OFF --no-warn-unused-cli
 
 # setup entrypoint
 COPY ./ros_entrypoint.sh /
