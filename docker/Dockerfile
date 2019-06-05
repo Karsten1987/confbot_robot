@@ -92,7 +92,7 @@ ENV ROS2_UNDERLAY_WS /opt/ros2_underlay_ws
 RUN mkdir -p $ROS2_UNDERLAY_WS/src
 WORKDIR $ROS2_UNDERLAY_WS
 
-RUN git clone https://github.com/Karsten1987/roscon2018/
+RUN git clone https://github.com/Karsten1987/roscon2018/ src/roscon2018
 # RUN if [ -f additional_repos.repos ]; then vcs import src < additional_repos.repos; fi
 # build underlay
 RUN apt-get -qq update && rosdep install -y \
