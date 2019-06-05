@@ -21,12 +21,14 @@ RUN echo 'Etc/UTC' > /etc/timezone && \
     apt-get update && apt-get install -q -y tzdata && rm -rf /var/lib/apt/lists/*
 
 # install packages
-RUN apt-get update && apt-get install -q -y \
-    bash-completion \
-    dirmngr \
-    gnupg2 \
-    lsb-release \
-    python3-pip \
+RUN apt-get update \
+    && apt-get -qq upgrade -y \
+    && apt-get install -q -y \
+        bash-completion \
+        dirmngr \
+        gnupg2 \
+        lsb-release \
+        python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # setup keys
@@ -79,10 +81,9 @@ WORKDIR $ROS2_WS
 ARG ROS_DISTRO=dashing
 ENV ROS_DISTRO=$ROS_DISTRO
 
-# install building tools
+# install ros_base
 RUN apt-get -qq update && \
-    apt-get -qq upgrade -y && \
-    apt-get -qq install ros-$ROS_DISTRO-ros-workspace -y && \
+    apt-get -qq install ros-$ROS_DISTRO-ros-base -y && \
     rm -rf /var/lib/apt/lists/*
 
 # setup underlay
@@ -107,6 +108,22 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && colcon \
 
 ENV ROS_PACKAGE_PATH=$ROS2_UNDERLAY_WS/install/share:$ROS_PACKAGE_PATH
 
+
+# install extra demo dependencies
+RUN apt-get -qq update \
+    && apt-get -qq install -y \
+        ros-$ROS_DISTRO-ros2bag \
+        ros-$ROS_DISTRO-ros2components \
+        ros-$ROS_DISTRO-rosbag2 \
+        ros-$ROS_DISTRO-rosbag2-converter-default-plugins \
+        ros-$ROS_DISTRO-rosbag2-storage-default-plugins \
+        ros-$ROS_DISTRO-rqt-graph \
+        ros-$ROS_DISTRO-rqt-image-view \
+        ros-$ROS_DISTRO-rqt-plot \
+        ros-$ROS_DISTRO-rqt-publisher \
+        ros-$ROS_DISTRO-rqt-service-caller \
+        ros-$ROS_DISTRO-rviz2 \
+    && rm -rf /var/lib/apt/lists/*
 # # setup overlay
 # ENV ROS2_OVERLAY_WS /opt/ros2_overlay_ws
 # RUN mkdir -p $ROS2_OVERLAY_WS/src/$REPO_SLUG
