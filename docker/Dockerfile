@@ -113,7 +113,7 @@ ENV ROS_PACKAGE_PATH=$ROS2_UNDERLAY_WS/install/share:$ROS_PACKAGE_PATH
 RUN apt-get -qq update \
     && apt-get -qq install -y \
         ros-$ROS_DISTRO-ros2bag \
-        ros-$ROS_DISTRO-ros2components \
+        ros-$ROS_DISTRO-ros2component \
         ros-$ROS_DISTRO-rosbag2 \
         ros-$ROS_DISTRO-rosbag2-converter-default-plugins \
         ros-$ROS_DISTRO-rosbag2-storage-default-plugins \
