@@ -126,7 +126,6 @@ RUN apt-get -qq update \
     && rm -rf /var/lib/apt/lists/*
 
 # setup ROS1 overlay
-
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 421C365BD9FF1F717815A3895523BAEEB01FA116
 RUN echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list
@@ -139,6 +138,7 @@ RUN apt-get -qq update && rosdep install -y \
     --ignore-src \
     --skip-keys "libopensplice69 rti-connext-dds-5.3.1" \
     && rm -rf /var/lib/apt/lists/*
+RUN python3 -m pip install -U catkin-pkg --force-install
 RUN . /opt/ros/melodic/setup.sh \
     && . /opt/ros/$ROS_DISTRO/setup.sh \
     && colcon \
