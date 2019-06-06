@@ -138,7 +138,7 @@ RUN apt-get -qq update && rosdep install -y \
     --ignore-src \
     --skip-keys "libopensplice69 rti-connext-dds-5.3.1" \
     && rm -rf /var/lib/apt/lists/*
-RUN python3 -m pip install -U catkin-pkg --force-install
+RUN python3 -m pip install -U catkin-pkg
 RUN . /opt/ros/melodic/setup.sh \
     && . /opt/ros/dashing/setup.sh \
     && colcon \
