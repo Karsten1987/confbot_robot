@@ -86,16 +86,16 @@ RUN apt-get -qq update && \
     apt-get -qq install ros-$ROS_DISTRO-ros-base -y && \
     rm -rf /var/lib/apt/lists/*
 
-# setup underlay
-ENV ROS2_UNDERLAY_WS /opt/ros2_underlay_ws
+# setup workspace
+ENV CONFBOT_WS /opt/confbot_ws
 # # copy optional additional_repos.repos
-# COPY ./additional_repos.repos $ROS2_UNDERLAY_WS/
-RUN mkdir -p $ROS2_UNDERLAY_WS/src
-WORKDIR $ROS2_UNDERLAY_WS
+# COPY ./additional_repos.repos $CONFBOT_WS/
+RUN mkdir -p $CONFBOT_WS/src
+WORKDIR $CONFBOT_WS
 
 RUN git clone https://github.com/Karsten1987/roscon2018/ src/roscon2018
 # RUN if [ -f additional_repos.repos ]; then vcs import src < additional_repos.repos; fi
-# build underlay
+# build workspace
 RUN apt-get -qq update && rosdep install -y \
     --from-paths src \
     --ignore-src \
@@ -106,7 +106,7 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && colcon \
     --merge-install \
     --cmake-args -DSECURITY=ON -DBUILD_TESTING=OFF --no-warn-unused-cli
 
-ENV ROS_PACKAGE_PATH=$ROS2_UNDERLAY_WS/install/share:$ROS_PACKAGE_PATH
+ENV ROS_PACKAGE_PATH=$CONFBOT_WS/install/share:$ROS_PACKAGE_PATH
 
 
 # install extra demo dependencies
@@ -129,10 +129,10 @@ RUN apt-get -qq update \
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 421C365BD9FF1F717815A3895523BAEEB01FA116
 RUN echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list
-ENV ROS2_OVERLAY_WS /opt/ros2_overlay_ws
-RUN mkdir -p $ROS2_OVERLAY_WS/src/
-WORKDIR $ROS2_OVERLAY_WS
-RUN git clone --depth=1 https://github.com/ros2/rosbag2_bag_v2 $ROS2_OVERLAY_WS/src/rosbag2_bag_v2
+ENV ROSBAG_V2_WS /opt/rosbag_v2_ws
+RUN mkdir -p $ROSBAG_V2_WS/src/
+WORKDIR $ROSBAG_V2_WS
+RUN git clone --depth=1 https://github.com/ros2/rosbag2_bag_v2 $ROSBAG_V2_WS/src/rosbag2_bag_v2
 RUN apt-get -qq update && rosdep install -y \
     --from-paths src \
     --ignore-src \
