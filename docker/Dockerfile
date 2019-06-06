@@ -111,7 +111,7 @@ ENV ROS_PACKAGE_PATH=$ROS2_UNDERLAY_WS/install/share:$ROS_PACKAGE_PATH
 
 # install extra demo dependencies
 RUN apt-get -qq update \
-    && apt-get -qq install -y \
+    && apt-get install -y \
         ros-$ROS_DISTRO-ros2bag \
         ros-$ROS_DISTRO-ros2component \
         ros-$ROS_DISTRO-rosbag2 \
@@ -125,7 +125,9 @@ RUN apt-get -qq update \
         ros-$ROS_DISTRO-rviz2 \
     && rm -rf /var/lib/apt/lists/*
 
-# setup overlay
+# setup ROS1 overlay
+
+RUN echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list
 ENV ROS2_OVERLAY_WS /opt/ros2_overlay_ws
 RUN mkdir -p $ROS2_OVERLAY_WS/src/
 WORKDIR $ROS2_OVERLAY_WS
