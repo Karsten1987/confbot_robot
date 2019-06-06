@@ -137,6 +137,52 @@ Double value is: 0.1
 
 ```
 
+##### Using the action server client
+In the example above, the robot got moved around by sending velocity commands on a specific topic called `/cmd_vel`.
+This makes sense when considering the twist publisher being a joystick, where commands shall be sent to the robot as long as the joystick buttons are pressed.
+
+However, one can think of another example such as a navigation goal, where the robot is directed to move for a certain amount of time with a specific velocity.
+For this use case, we introduced an action server where we can asynchronously send a single command to the robot and periodically ask for feedback of its state.
+In order for this to visualize properly, we want to shutdown the twist publisher first.
+```bash
+$ ros2 component unload /confbot_driver_container 2
+```
+
+Next, we provide an already prepared executable which sends an action goal to the robot and then asks for the current robot state until the action is finished.
+```bash
+$ ros2 run confbot_driver confbot_actionclient
+```
+
+As you can see on the terminal output, we can get information about the current state:
+```bash
+[INFO] [confbot_actionclient]: Sending goal
+[INFO] [confbot_actionclient]: Waiting for result
+[INFO] [confbot_actionclient]: Confbot traveled 0.100000 so far in 0 seconds
+...
+[INFO] [confbot_actionclient]: Confbot traveled 10.000002 so far in 9 seconds
+[INFO] [confbot_actionclient]: result received
+[INFO] [confbot_actionclient]: robot traveled 10.100002 meters
+```
+
+There further exists a command line tool which allows to send the same goal without the need of an executable.
+```bash
+ros2 action send_goal /move_command confbot_msgs/action/MoveCommand "{duration: {sec: 10}, linear_velocity: 0.1, angular_velocity: 0.1}"
+Waiting for an action server to become available...
+Sending goal:
+     duration:
+  sec: 10
+  nanosec: 0
+linear_velocity: 0.1
+angular_velocity: 0.1
+
+Goal accepted with ID: 128044c1ecaa46d287941597273fcdb7
+
+Result:
+    distance_traveled: 10.000001907348633
+
+Goal finished with status: SUCCEEDED
+```
+
 ##### Introspecting lifecycle nodes
 Temrinal 3:
 ```bash

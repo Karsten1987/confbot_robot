@@ -57,24 +57,19 @@ ConfbotDriver::ConfbotDriver(const rclcpp::NodeOptions & options)
 }
 
 void
-ConfbotDriver::reset_speed()
+ConfbotDriver::update_odometry()
 {
-  vel_lin_ = 0.0f;
-  vel_ang_ = 0.0f;
-  distance_traveled_ = 0.0f;
+  tf_broadcaster_->sendTransform(msg_);
 }
 
 void
-ConfbotDriver::update_odometry()
+ConfbotDriver::update_robot_position(float vel_lin, float vel_ang)
 {
-  robot_position_.heading += vel_ang_;
-  robot_position_.x += 2.0 * cos(robot_position_.heading) * vel_lin_;
-  robot_position_.y += 2.0 * sin(robot_position_.heading) * vel_lin_;
+  robot_position_.heading += vel_ang;
+  robot_position_.x += 2.0 * cos(robot_position_.heading) * vel_lin;
+  robot_position_.y += 2.0 * sin(robot_position_.heading) * vel_lin;
+  robot_position_.distance_traveled_ += vel_lin;
   robot_position_.to_transform(msg_.transform);
-
-  tf_broadcaster_->sendTransform(msg_);
-
-  reset_speed();
 }
 
 void
@@ -82,8 +77,7 @@ ConfbotDriver::update_velocity(std::shared_ptr<geometry_msgs::msg::Twist> twist_
 {
   auto sub_lock = std::unique_lock<std::mutex>(cmd_vel_mutex_, std::try_to_lock);
   if (sub_lock.owns_lock()) {
-    vel_lin_ = twist_msg->linear.x;
-    vel_ang_ = twist_msg->angular.z;
+    update_robot_position(twist_msg->linear.x, twist_msg->angular.z);
   }
 }
 
@@ -106,7 +100,7 @@ ConfbotDriver::handle_cancel(
 {
   RCLCPP_INFO(get_logger(), "Got request to cancel goal");
   (void)goal_handle;
-  reset_speed();
+  robot_position_.reset_odometry();
   return rclcpp_action::CancelResponse::ACCEPT;
 }
 
@@ -114,24 +108,24 @@ void
 ConfbotDriver::update_feedback(
   const std::shared_ptr<ServerGoalHandle> goal_handle)
 {
-  distance_traveled_ += vel_lin_;
+  const auto & goal = goal_handle->get_goal();
+  update_robot_position(goal->linear_velocity, goal->angular_velocity);
 
-  const auto goal = goal_handle->get_goal();
   auto result = std::make_shared<MoveCommand::Result>();
 
   auto now = clock_.now();
   auto time_elapsed = now - action_start_time_;
   if (time_elapsed >= goal->duration) {
-    result->distance_traveled = distance_traveled_;
+    result->distance_traveled = robot_position_.distance_traveled_;
     goal_handle->succeed(result);
     feedback_timer_->cancel();
-    reset_speed();
+    robot_position_.reset_odometry();
     cmd_vel_lock_.unlock();
     return;
   }
 
   auto feedback = std::make_shared<MoveCommand::Feedback>();
-  feedback->distance_traveled = distance_traveled_;
+  feedback->distance_traveled = robot_position_.distance_traveled_;
   feedback->time_elapsed = time_elapsed;
 
   // Publish feedback
@@ -147,10 +141,9 @@ ConfbotDriver::handle_accepted(const std::shared_ptr<ServerGoalHandle> goal_hand
 
   cmd_vel_lock_.lock();
 
-  feedback_timer_ = this->create_wall_timer(1s, fnc);
+  robot_position_.reset_odometry();
 
-  vel_lin_ = goal_handle->get_goal()->linear_velocity;
-  vel_ang_ = goal_handle->get_goal()->angular_velocity;
+  feedback_timer_ = this->create_wall_timer(100ms, fnc);
 
   action_start_time_ = clock_.now();
 }

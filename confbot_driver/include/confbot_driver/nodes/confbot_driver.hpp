@@ -40,6 +40,7 @@ struct RobotPosition
   float x = 0.0f;
   float y = -2.0f;
   float heading = 0.0f;
+  float distance_traveled_ = 0.0f;
 
   void to_transform(geometry_msgs::msg::Transform & transform)
   {
@@ -58,6 +59,11 @@ struct RobotPosition
     transform.rotation.y = cy * cr * sp + sy * sr * cp;
     transform.rotation.z = sy * cr * cp - cy * sr * sp;
   }
+
+  void reset_odometry()
+  {
+    distance_traveled_ = 0.0f;
+  }
 };
 
 class ConfbotDriver : public rclcpp::Node
@@ -71,7 +77,7 @@ public:
   virtual ~ConfbotDriver() = default;
 
 protected:
-  void reset_speed();
+  void update_robot_position(float vel_lin, float vel_ang);
 
   void update_odometry();
 
@@ -89,10 +95,6 @@ protected:
   void handle_accepted(const std::shared_ptr<ServerGoalHandle> goal_handle);
 
 private:
-  float vel_lin_ = 0.0f;
-  float vel_ang_ = 0.0f;
-  float distance_traveled_ = 0.0f;
-
   RobotPosition robot_position_;
 
   rclcpp::Clock clock_;
