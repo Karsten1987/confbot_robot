@@ -1,0 +1,16 @@
+rosbag2_bagfile_information:
+  version: 1
+  storage_identifier: sqlite3
+  relative_file_paths:
+    - ros2_cmd_vel_bag.db3
+  duration:
+    nanoseconds: 6897800000
+  starting_time:
+    nanoseconds_since_epoch: 1559712808963756000
+  message_count: 70
+  topics_with_message_count:
+    - topic_metadata:
+        name: /cmd_vel
+        type: geometry_msgs/msg/Twist
+        serialization_format: cdr
+      message_count: 70

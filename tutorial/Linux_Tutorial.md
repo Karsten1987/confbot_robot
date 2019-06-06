@@ -137,6 +137,46 @@ Double value is: 0.1
 
 ```
 
+##### Using components
+
+Terminal 3:
+Listing running components:
+```bash
+$ ros2 component list
+/confbot_driver_container
+  1  /confbot_driver
+  2  /twist_publisher
+```
+
+Unload the `twist_publisher` component:
+```bash
+$ ros2 component unload /confbot_driver_container 2
+Unloaded component 2 from '/confbot_driver_container' container node
+```
+In RViz the robot stops moving
+
+List available components:
+```bash
+$ ros2 component types
+confbot_driver
+  confbot_driver::nodes::ConfbotDriver
+  confbot_driver::nodes::TwistPublisher
+```
+
+Load a component:
+```bash
+$ ros2 component load /confbot_driver_container confbot_driver confbot_driver::nodes::TwistPublisher
+Loaded component 3 into '/confbot_driver_container' container node as '/twist_publisher'
+```
+Robot starts moving again in RViz
+
+```bash
+$ ros2 component list
+/confbot_driver_container
+  1  /confbot_driver
+  3  /twist_publisher
+```
+
 ##### Using the action server client
 In the example above, the robot got moved around by sending velocity commands on a specific topic called `/cmd_vel`.
 This makes sense when considering the twist publisher being a joystick, where commands shall be sent to the robot as long as the joystick buttons are pressed.
@@ -184,7 +224,7 @@ Goal finished with status: SUCCEEDED
 ```
 
 ##### Introspecting lifecycle nodes
-Temrinal 3:
+Terminal 3:
 ```bash
 $ ros2 lifecycle nodes
 /confbot_laser
@@ -225,46 +265,64 @@ In RViz: the laser node is now publishing fake laser data!
 
 ![RViz with laser](images/rviz_with_laser.png)
 
-##### Using components
+##### Working with rosbags
 
-Terminal 3:
-Listing running components:
+Starting from Dashing, rosbag2 is available and can be used to record and replay ros2 topics.
+For our demo, we are going to record the `cmd_vel` topic and replay it afterwards.
+The user is encouraged to follow the steps below, but for completeness, we provided already pre-recorded bag files in the `confbot_driver/resources` folder.
+It is important to make sure that the `twist_publisher` node is currently running and correctly publishing data on the `cmd_vel` topic.
+
 ```bash
-$ ros2 component list
-/confbot_driver_container
-  1  /confbot_driver
-  2  /twist_publisher
+ros2 bag record -o ros2_cmd_vel_bag /cmd_vel
+[INFO] [rosbag2_storage]: Opened database 'ros2_cmd_vel_bag'.
+[INFO] [rosbag2_transport]: Listening for topics...
+[INFO] [rosbag2_transport]: Subscribed to topic '/cmd_vel'
+[INFO] [rosbag2_transport]: All requested topics are subscribed. Stopping discovery...
+^C[INFO] [rclcpp]: signal_handler(signal_value=2)
+```
+The command above records all incoming data on the `cmd_vel` topic.
+We can use the rosbag command line tool to introspect our recording:
+
+```bash
+ros2 bag info ros2_cmd_vel_bag
+
+Files:             ros2_cmd_vel_bag.db3
+Bag size:          56.4 KiB
+Storage id:        sqlite3
+Duration:          6.897s
+Start:             Jun  4 2019 22:33:28.963 (1559712808.963)
+End                Jun  4 2019 22:33:35.861 (1559712815.861)
+Messages:          70
+Topic information: Topic: /cmd_vel | Type: geometry_msgs/msg/Twist | Count: 70 | Serialization Format: cdr
 ```
 
-Unload the `twist_publisher` component:
+Before replaying our `ros2_cmd_vel_bag` bagfile, we have to stop the `twist_publisher` to make sure we don't have two nodes publishing on the `cmd_vel` topic simultaneously.
+In our demo, the twist publisher is loaded under the `/confbot_driver_container` with ID 2 as shown above.
+
 ```bash
-$ ros2 component unload /confbot_driver_container 2
+ros2 component unload /confbot_driver_container 2
 Unloaded component 2 from '/confbot_driver_container' container node
 ```
-In RViz the robot stops moving
 
-List available components:
+With the twist publisher stopped, you can see that the robot does not move any longer in RViz.
+The next step is now to replay the bagfile:
 ```bash
-$ ros2 component types
-confbot_driver
-  confbot_driver::nodes::ConfbotDriver
-  confbot_driver::nodes::TwistPublisher
+ros2 bag play ros2_cmd_vel_bag
+[INFO] [rosbag2_storage]: Opened database 'ros2_cmd_vel_bag'.
 ```
+While the bag file is playing, our confbot robot moves again in RViz until the bag file is completely replayed.
 
-Load a component:
+For further demo purposes, you can find a legacy ros1 bag file in `confbot_driver/resources`.
+The current rosbag2 implementation provides plugins which allow to replay - and replay only - existing legacy ros1 bag files.
+Needless to say, this requires a parallel ros1 melodic installation and thus only works on Linux 18.04.
+The plugin can be found here: https://github.com/ros2/rosbag2_bag_v2
+
+The ros1 bag file can be replayed with almost the same command above:
 ```bash
-$ ros2 component load /confbot_driver_container confbot_driver confbot_driver::nodes::TwistPublisher
-Loaded component 3 into '/confbot_driver_container' container node as '/twist_publisher'
+ros2 bag play -s rosbag_v2 ros1_cmd_vel.bag
 ```
-Robot starts moving again in RViz
-
-```bash
-$ ros2 component list
-/confbot_driver_container
-  1  /confbot_driver
-  3  /twist_publisher
-```
-
+That will just as before publish data on the `cmd_vel` topic and the robot moves again.
+However, the data is actually coming from an old ros1 bag file.
 
 ##### Compromise the system
 
