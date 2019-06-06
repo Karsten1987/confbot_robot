@@ -140,7 +140,7 @@ RUN apt-get -qq update && rosdep install -y \
     && rm -rf /var/lib/apt/lists/*
 RUN python3 -m pip install -U catkin-pkg --force-install
 RUN . /opt/ros/melodic/setup.sh \
-    && . /opt/ros/$ROS_DISTRO/setup.sh \
+    && . /opt/ros/dashing/setup.sh \
     && colcon \
        build \
        --merge-install \
