@@ -531,3 +531,34 @@ $ python3 safe_zone_publisher.py
 ```
 
 Here it fails with `rt/cmd_vel topic not found in allow rule.` meaning that the not is not allowed to publish on the ROS topic `/cmd_vel`.
+
+
+##### Simulating the robot in Gazebo
+
+Make sure to kill all the running nodes.
+
+Shell 1: Set up Gazebo environment variables and launch the simulation
+```bash
+source /usr/share/gazebo/setup.sh
+export GAZEBO_MODEL_PATH=$CONFBOT_WS/install/share/:$GAZEBO_MODEL_PATH
+ros2 launch confbot_simulation empty_world.launch.py
+```
+
+Shell 2: Spawn our robot in Gazebo
+```bash
+ros2 run confbot_simulation urdf_spawner.py `ros2 pkg prefix confbot_description --share`/urdf/confbot.urdf
+```
+Then we give a velocity command to our robot
+```bash
+ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{angular: {z: 1}}" -1
+```
+
+Shell 3: monitor our robot with RViz
+```bash
+ros2 run rviz2 rviz2 -d `ros2 pkg prefix confbot_simulation --share`/config/config_gazebo.rviz
+```
+
+TODO: remove following lines and place them in an RViz config file
+Toggle off and on the `Image` plugin
+
+We can see our robot using a differential drive controller, a simulated laser scanner and a simulated camera!
