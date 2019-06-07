@@ -23,6 +23,7 @@ from launch.actions import ExecuteProcess
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
 
 
 def generate_launch_description():
@@ -46,4 +47,16 @@ def generate_launch_description():
             PythonLaunchDescriptionSource([launch_file_dir, '/confbot_state_publisher.launch.py']),
             launch_arguments={'use_sim_time': LaunchConfiguration('use_sim_time')}.items(),
         ),
+        # publishing static transforms for caster wheels
+        # TODO remove this once thee is a joint_state_controller for gazebo/ros2
+        Node(
+            package='tf2_ros',
+            node_executable='static_transform_publisher',
+            arguments=[
+                '0.4', '0.0', '-0.05', '0', '0', '0', 'base_link', 'caster_wheel_front_link']),
+        Node(
+            package='tf2_ros',
+            node_executable='static_transform_publisher',
+            arguments=[
+                '-0.4', '0.0', '-0.05', '0', '0', '0', 'base_link', 'caster_wheel_rear_link']),
     ])
