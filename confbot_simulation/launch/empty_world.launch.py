@@ -27,8 +27,7 @@ from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
     use_sim_time = True
-    world = os.path.join(
-        get_package_share_directory('confbot_simulation'), 'world', 'basic_world.world')
+    world = 'worlds/cafe.world'
     launch_file_dir = os.path.join(get_package_share_directory('confbot_bringup'), 'launch')
 
     return LaunchDescription([

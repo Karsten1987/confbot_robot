@@ -48,7 +48,7 @@ void ConfbotLaser::publish()
 {
   static auto distance = 1.0f;
   for (size_t i = 0; i < msg_.ranges.size(); ++i) {
-    msg_.ranges[i] = distance / sin((msg_.angle_min + i * msg_.angle_increment));
+    msg_.ranges[i] = distance / cos((msg_.angle_min + i * msg_.angle_increment));
   }
   msg_.header.stamp = clock_.now();
 
@@ -63,11 +63,11 @@ ConfbotLaser::on_configure(const rclcpp_lifecycle::State &)
   timer_ = this->create_wall_timer(
     50ms, std::bind(&ConfbotLaser::publish, this));
 
-  msg_.header.frame_id = "laser_link";
+  msg_.header.frame_id = "laser_frame";
 
   msg_.angle_increment = 5 * DEG2RAD;
-  msg_.angle_min = 65 * DEG2RAD;
-  msg_.angle_max = 115 * DEG2RAD;
+  msg_.angle_min = -25 * DEG2RAD;
+  msg_.angle_max = 25 * DEG2RAD;
   msg_.ranges.resize((msg_.angle_max - msg_.angle_min) / msg_.angle_increment);
   msg_.range_min = 0.0f;
   msg_.range_max = 10.0f;

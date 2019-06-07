@@ -24,8 +24,9 @@ from launch_ros.descriptions import ComposableNode
 
 
 def generate_launch_description():
-    urdf = os.path.join(get_package_share_directory('confbot_description'),
-                        'urdf', 'confbot.urdf')
+    urdf = os.path.join(
+            get_package_share_directory('confbot_description'),
+            'urdf', 'confbot.urdf')
 
     return LaunchDescription([
         Node(
@@ -45,11 +46,13 @@ def generate_launch_description():
                 ComposableNode(
                     package='confbot_driver',
                     node_plugin='confbot_driver::nodes::ConfbotDriver',
-                    node_name='confbot_driver'),
+                    node_name='confbot_driver',
+                ),
                 ComposableNode(
                     package='confbot_driver',
                     node_plugin='confbot_driver::nodes::TwistPublisher',
-                    node_name='twist_publisher')
+                    node_name='twist_publisher',
+                ),
             ],
             output='screen',),
         ComposableNodeContainer(
@@ -63,5 +66,24 @@ def generate_launch_description():
                     node_plugin='confbot_sensors::nodes::ConfbotLaser',
                     node_name='confbot_laser'),
             ],
-            output='screen',)
+            output='screen',),
+        # publishing static transforms for (caster)wheels
+        Node(
+            package='tf2_ros',
+            node_executable='static_transform_publisher',
+            arguments=['0', '0.55', '0.0', '0', '0', '0', 'base_link', 'wheel_l_link']),
+        Node(
+            package='tf2_ros',
+            node_executable='static_transform_publisher',
+            arguments=['0', '-0.55', '0.0', '0', '0', '0', 'base_link', 'wheel_r_link']),
+        Node(
+            package='tf2_ros',
+            node_executable='static_transform_publisher',
+            arguments=[
+                '0.4', '0.0', '-0.05', '0', '0', '0', 'base_link', 'caster_wheel_front_link']),
+        Node(
+            package='tf2_ros',
+            node_executable='static_transform_publisher',
+            arguments=[
+                '-0.4', '0.0', '-0.05', '0', '0', '0', 'base_link', 'caster_wheel_rear_link']),
     ])

@@ -9,7 +9,9 @@ find_package(sros2_cmake REQUIRED)
 ros2_secure_node(
   NODES
   /confbot_driver
+  /confbot_driver_container
   /confbot_laser
+  /confbot_sensors_container
   /launch_ros
   /robot_state_publisher
   /rviz

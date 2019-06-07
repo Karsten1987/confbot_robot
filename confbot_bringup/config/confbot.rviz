@@ -44,7 +44,7 @@ Visualization Manager:
         All Enabled: true
         base_link:
           Value: true
-        laser_link:
+        laser_frame:
           Value: true
         odom:
           Value: true
@@ -60,7 +60,7 @@ Visualization Manager:
       Tree:
         odom:
           base_link:
-            laser_link:
+            laser_frame:
               {}
             wheel_l_link:
               {}
@@ -86,7 +86,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        laser_link:
+        laser_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false

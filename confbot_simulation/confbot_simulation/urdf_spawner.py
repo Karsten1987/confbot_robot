@@ -30,6 +30,7 @@ def request_spawn(xml: str):
     print('service ready, making request')
     request = SpawnEntity.Request()
     request.xml = xml
+    request.initial_pose.position.z = 0.1
     future = client.call_async(request)
     rclpy.spin_until_future_complete(node, future)
     if future.result() is not None:
