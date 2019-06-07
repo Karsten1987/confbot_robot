@@ -3,9 +3,12 @@ services:
 
 install:
   - git clone --quiet --depth 1 https://github.com/mikaelarguedas/ros2ci.git .ros2ci
-  - cp additional_repos.repos .ros2ci/
 
 matrix:
   include:
-    - script: .ros2ci/travis.bash dashing
-    - script: .ros2ci/travis.bash nightly
+    - env: JOB_TYPE=dashing
+      script: .ros2ci/travis.bash dashing
+    - env: JOB_TYPE=nightly
+      script:
+      - cp additional_repos.repos .ros2ci/
+      - .ros2ci/travis.bash nightly
