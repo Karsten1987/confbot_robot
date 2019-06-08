@@ -160,12 +160,14 @@ $ ros2 param set /twist_publisher speed 0.2
 Set parameter successful
 ```
 
+<!--
 In Terminal 1 we see:
 ```bash
 # TODO this is not printed anymore ?
 # Oh actually the console output is batched printed and this didnt get printed until the end of the action tutorial...
 [INFO] [twist_publisher]: set parameter 'speed' to "0.200000"
 ```
+-->
 
 In RViz: robot goes twice as fast
 
