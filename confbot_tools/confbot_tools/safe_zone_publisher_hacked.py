@@ -31,9 +31,9 @@ class SafeZonePublisher(Node):
     def __init__(self):
         super().__init__('safe_zone_publisher')
 
-        self.pub = self.create_publisher(Marker, 'safe_zone')
-        self.hacked_pub = self.create_publisher(Twist, 'cmd_vel')
-        self.shark_pub = self.create_publisher(Marker, 'danger_zone')
+        self.pub = self.create_publisher(Marker, 'safe_zone', 10)
+        self.hacked_pub = self.create_publisher(Twist, 'cmd_vel', 10)
+        self.shark_pub = self.create_publisher(Marker, 'danger_zone', 10)
         timer_period = 1.0
         self.tmr = self.create_timer(timer_period, self.timer_callback)
 
