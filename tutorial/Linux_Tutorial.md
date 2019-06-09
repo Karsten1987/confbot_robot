@@ -89,6 +89,10 @@ $ ros2 node list
 /twist_publisher
 /confbot_sensors_container
 /confbot_laser
+/static_tf_wheel_left
+/static_tf_wheel_right
+/static_tf_caster_wheel_front
+/static_tf_caster_wheel_rear
 ```
 
 ```bash
