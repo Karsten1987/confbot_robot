@@ -52,11 +52,13 @@ def generate_launch_description():
         Node(
             package='tf2_ros',
             node_executable='static_transform_publisher',
+            node_name='static_tf_caster_wheel_front',
             arguments=[
                 '0.4', '0.0', '-0.05', '0', '0', '0', 'base_link', 'caster_wheel_front_link']),
         Node(
             package='tf2_ros',
             node_executable='static_transform_publisher',
+            node_name='static_tf_caster_wheel_rear',
             arguments=[
                 '-0.4', '0.0', '-0.05', '0', '0', '0', 'base_link', 'caster_wheel_rear_link']),
     ])
