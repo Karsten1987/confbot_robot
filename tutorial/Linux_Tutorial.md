@@ -43,9 +43,7 @@ colcon build --merge-install --cmake-args --no-warn-unused-cli -DSECURITY=ON -DB
 ```bash
 sudo apt-get install -y \
   ros-$ROS_DISTRO-ros-core \
-  ros-$ROS_DISTRO-ros2action \
   ros-$ROS_DISTRO-ros2bag \
-  ros-$ROS_DISTRO-ros2component \
   ros-$ROS_DISTRO-rosbag2 \
   ros-$ROS_DISTRO-rosbag2-converter-default-plugins \
   ros-$ROS_DISTRO-rosbag2-storage-default-plugins \
