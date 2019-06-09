@@ -73,17 +73,12 @@ RUN pip3 freeze | grep pytest \
 RUN rosdep init \
     && rosdep update
 
-# clone source
-ENV ROS2_WS /opt/ros2_ws
-RUN mkdir -p $ROS2_WS/src
-WORKDIR $ROS2_WS
-
 ARG ROS_DISTRO=dashing
 ENV ROS_DISTRO=$ROS_DISTRO
 
 # install ros_base
 RUN apt-get -qq update && \
-    apt-get -qq install ros-$ROS_DISTRO-ros-base -y && \
+    apt-get install ros-$ROS_DISTRO-ros-base -y && \
     rm -rf /var/lib/apt/lists/*
 
 # setup workspace
@@ -108,13 +103,16 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && colcon \
 
 ENV ROS_PACKAGE_PATH=$CONFBOT_WS/install/share:$ROS_PACKAGE_PATH
 
+# setup ROS1 overlay
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+RUN echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list
 
 # install extra demo dependencies
 RUN apt-get -qq update \
     && apt-get install -y \
         ros-$ROS_DISTRO-ros2bag \
-        ros-$ROS_DISTRO-ros2component \
         ros-$ROS_DISTRO-rosbag2 \
+        ros-$ROS_DISTRO-rosbag2-bag-v2-plugins \
         ros-$ROS_DISTRO-rosbag2-converter-default-plugins \
         ros-$ROS_DISTRO-rosbag2-storage-default-plugins \
         ros-$ROS_DISTRO-rqt-graph \
@@ -125,30 +123,9 @@ RUN apt-get -qq update \
         ros-$ROS_DISTRO-rviz2 \
     && rm -rf /var/lib/apt/lists/*
 
-# setup ROS1 overlay
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 421C365BD9FF1F717815A3895523BAEEB01FA116
-RUN echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list
-ENV ROSBAG_V2_WS /opt/rosbag_v2_ws
-RUN mkdir -p $ROSBAG_V2_WS/src/
-WORKDIR $ROSBAG_V2_WS
-RUN git clone --depth=1 https://github.com/ros2/rosbag2_bag_v2 $ROSBAG_V2_WS/src/rosbag2_bag_v2
-RUN apt-get -qq update && rosdep install -y \
-    --from-paths src \
-    --ignore-src \
-    --skip-keys "libopensplice69 rti-connext-dds-5.3.1" \
-    && rm -rf /var/lib/apt/lists/*
-RUN python3 -m pip install -U catkin-pkg
-RUN . /opt/ros/melodic/setup.sh \
-    && . /opt/ros/dashing/setup.sh \
-    && colcon \
-       build \
-       --merge-install \
-       --cmake-args -DSECURITY=ON -DBUILD_TESTING=OFF --no-warn-unused-cli
-
 # setup entrypoint
 COPY ./ros_entrypoint.sh /
 
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
-CMD ['bash']
+CMD ["bash"]
