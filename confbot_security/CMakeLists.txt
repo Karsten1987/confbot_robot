@@ -17,6 +17,10 @@ ros2_secure_node(
   /rviz
   /safe_zone_publisher
   /twist_publisher
+  /static_tf_wheel_left
+  /static_tf_wheel_right
+  /static_tf_caster_wheel_front
+  /static_tf_caster_wheel_rear
 )
 
 ament_package()
