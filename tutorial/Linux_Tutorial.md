@@ -370,33 +370,50 @@ ros2 bag play ros2_cmd_vel_bag
 While the bag file is playing, our confbot robot moves again in RViz until the bag file is completely replayed.
 
 #### Replaying legacy ROS 1 bag files
-TODO provide instructions for workspace setup and building
+
 For further demo purposes, you can find a legacy ROS 1 bag file in `confbot_driver/resources`.
-The current rosbag2 implementation provides plugins which allow to replay - and replay only - existing legacy ros1 bag files.
-Needless to say, this requires a parallel ros1 melodic installation and thus only works on Linux 18.04.
-The plugin can be found here: https://github.com/ros2/rosbag2_bag_v2
+The current rosbag2 implementation provides plugins which allow to replay - and replay only - existing legacy ROS 1 bag files.
+Needless to say, this requires a parallel ROS 1 melodic installation and thus only works on Linux 18.04.
+
+##### Install the plugin
+
+First, you will need to make sure to have the ROS 1 repositories in your sources:
+
+[Set up your sources.list](http://wiki.ros.org/melodic/Installation/Ubuntu#Installation.2BAC8-Ubuntu.2BAC8-Sources.Setup_your_sources.list)
+
+[Set up your keys](http://wiki.ros.org/melodic/Installation/Ubuntu#Installation.2BAC8-Ubuntu.2BAC8-Sources.Set_up_your_keys)
+
+```bash
+sudo apt install -y ros-dashing-rosbag2-bag-v2-plugins
+```
+
+##### Use the plugin
 
 In a fresh terminal:
 ```bash
 source /opt/ros/melodic/setup.bash
+cd $CONFBOT_WS/src/roscon2018/confbot_driver/resources
 rosbag info ros1_cmd_vel.bag
 ```
 You can see that this is a ROS1 rosbag as usual.
 When specifying the plugin for reading legacy rosbags in ROS2, we can load the same information in ROS:
-```
+```bash
+source /opt/ros/melodic/setup.bash
+source /opt/ros/dashing/setup.bash
+cd $CONFBOT_WS/src/roscon2018/confbot_driver/resources
 ros2 bag info -s rosbag_v2 ros1_cmd_vel.bag
 ```
-The ros1 bag file can be replayed with almost the same command above:
+The ROS 1 bag file can be replayed with almost the same command above:
 ```bash
 ros2 bag play -s rosbag_v2 ros1_cmd_vel.bag
 ```
 That will just as before publish data on the `cmd_vel` topic and the robot moves again.
-However, the data is actually coming from an old ros1 bag file.
+However, the data is actually coming from an old ROS 1 bag file.
 
 
 ### Use ROS 2 security
 
-Let's start our twist_publisher once again:
+Let's start our `twist_publisher` once again:
 ```bash
 ros2 component load /confbot_driver_container confbot_driver confbot_driver::nodes::TwistPublisher
 ```
