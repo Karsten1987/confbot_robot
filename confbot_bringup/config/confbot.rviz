@@ -71,7 +71,7 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz_default_plugins/RobotModel
       Collision Enabled: false
-      Description File: /media/mikatchou/ROS/ros2/roscon2019/roscon2019_ws/src/roscon2018/confbot_description/urdf/confbot.urdf
+      Description File: /media/mikatchou/ROS/ros2/roscon2019/roscon2019_ws/src/confbot_robot/confbot_description/urdf/confbot.urdf
       Description Source: File
       Description Topic: /robot_description
       Enabled: true

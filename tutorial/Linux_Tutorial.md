@@ -14,7 +14,7 @@ source /opt/ros/dashing/setup.bash
 
 ```bash
 export CONFBOT_WS=$HOME/confbot_demo/confbot_ws
-mkdir -p $CONFBOT_WS/src && cd $CONFBOT_WS && git clone https://github.com/Karsten1987/roscon2018 src/roscon2018
+mkdir -p $CONFBOT_WS/src && cd $CONFBOT_WS && git clone https://github.com/Karsten1987/confbot_robot src/confbot_robot
 ```
 To make the rest of the demo easier we recommend you to place this export in your `.bashrc`
 ```
@@ -24,7 +24,7 @@ echo "export CONFBOT_WS=$HOME/confbot_demo/confbot_ws" >> ~/.bashrc
 ### Adapting the code for your machine
 ```bash
 cd $CONFBOT_WS
-sed -i s@/Users/karsten/workspace/osrf/roscon2018_ws/@$CONFBOT_WS/@g `grep -lr "/karsten/"  --exclude Linux_Tutorial.md`
+sed -i s@/Users/karsten/workspace/osrf/confbot_robot_ws/@$CONFBOT_WS/@g `grep -lr "/karsten/"  --exclude Linux_Tutorial.md`
 ```
 
 ### Installing the dependencies
@@ -406,7 +406,7 @@ sudo apt install -y ros-dashing-rosbag2-bag-v2-plugins
 In a fresh terminal:
 ```bash
 source /opt/ros/melodic/setup.bash
-cd $CONFBOT_WS/src/roscon2018/confbot_driver/resources
+cd $CONFBOT_WS/src/confbot_robot/confbot_driver/resources
 rosbag info ros1_cmd_vel.bag
 ```
 You can see that this is a ROS1 rosbag as usual.
@@ -414,7 +414,7 @@ When specifying the plugin for reading legacy rosbags in ROS2, we can load the s
 ```bash
 source /opt/ros/melodic/setup.bash
 source /opt/ros/dashing/setup.bash
-cd $CONFBOT_WS/src/roscon2018/confbot_driver/resources
+cd $CONFBOT_WS/src/confbot_robot/confbot_driver/resources
 ros2 bag info -s rosbag_v2 ros1_cmd_vel.bag
 ```
 The ROS 1 bag file can be replayed with almost the same command above:
@@ -443,7 +443,7 @@ Robot now goes backward in RViz.
 If you command the robot in a non-circular motion, the robot will eventually move out of its safe zone and gets eaten by the shark!
 We definitely want to secure our little poor confbot :)
 
-Please make sur to terminate all the running nodes by Ctrl+C them (Terminals 1, 2 and 3).
+Please make sure to terminate all the running nodes by Ctrl+C them (Terminals 1, 2 and 3).
 
 We will now use ROS2 Security to harden the system.
 
@@ -454,7 +454,7 @@ In a new terminal
 export ROS_SECURITY_ROOT_DIRECTORY=$CONFBOT_WS/confbot_keystore
 source /opt/ros/dashing/setup.bash
 cd $CONFBOT_WS
-colcon build --merge-install --cmake-args -DSECURITY=ON -DPOLICY_FILE=$CONFBOT_WS/src/roscon2018/confbot_security/safe_zone_publisher_policies.xml --packages-select confbot_security --cmake-force-configure
+colcon build --merge-install --cmake-args -DSECURITY=ON -DPOLICY_FILE=$CONFBOT_WS/src/confbot_robot/confbot_security/safe_zone_publisher_policies.xml --packages-select confbot_security --cmake-force-configure
 ```
 
 The `confbot_keystore` directory content will look similar to:
@@ -616,14 +616,14 @@ Here we will look at the `/safe_zone_publisher` node's permissions.
 This node's sole function is to publish the safe zone where the robot is operating (green zone in RViz) and the danger zone (red shark).
 
 Let's have a look at the `safe_zone_publisher_policies.xml` file
-`cat $CONFBOT_WS/src/roscon2018/confbot_security/safe_zone_publisher_policies.xml`
+`cat $CONFBOT_WS/src/confbot_robot/confbot_security/safe_zone_publisher_policies.xml`
 
 ![Node security policies](images/safe_zone_security_policies.png)
 
 Imagine an attacker is able to inject code into our `/safe_zone_publisher` node to make it send velocity commands to the robot.
 
 ```bash
-cd $CONFBOT_WS/src/roscon2018/confbot_tools/confbot_tools
+cd $CONFBOT_WS/src/confbot_robot/confbot_tools/confbot_tools
 cp safe_zone_publisher_hacked.py safe_zone_publisher.py
 git diff safe_zone_publisher.py
 ```
