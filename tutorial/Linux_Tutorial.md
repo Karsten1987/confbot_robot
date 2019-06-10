@@ -213,7 +213,7 @@ $ ros2 lifecycle list /confbot_laser
 ```
 
 ```bash
-$ ros2 lifecycle set /confbot_laser 1
+$ ros2 lifecycle set /confbot_laser configure
 Transitioning successful
 ```
 
@@ -231,7 +231,7 @@ $ ros2 lifecycle list /confbot_laser
 ```
 
 ```bash
-$ ros2 lifecycle set /confbot_laser 3
+$ ros2 lifecycle set /confbot_laser activate
 ```
 In RViz: the laser node is now publishing fake laser data!
 
