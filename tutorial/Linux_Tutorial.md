@@ -141,6 +141,16 @@ ros2 run rviz2 rviz2 -d `ros2 pkg prefix confbot_bringup --share`/config/confbot
 
 ![RViz confbot_bringup](images/rviz_confbot_bringup.png)
 
+Terminal 3:
+Leverage `rqt_graph` to inspect the ROS node graph
+```bash
+ros2 run rqt_gui rqt_gui --perspective-file `ros2 pkg prefix confbot_bringup --share`/config/confbot_bringup_qt.perspective
+```
+Hit the refresh button to actualize the graph.
+
+![rqt_graph confbot_bringup](images/rqt_graph_confbot.png)
+
+
 #### Set parameters
 Terminal 3:
 The node `/twist_publisher` has a speed parameter.
