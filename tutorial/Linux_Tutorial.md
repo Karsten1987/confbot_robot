@@ -5,6 +5,13 @@
 - Have ROS 2 (`ros_core`) installed, here assumed ROS Dashing located at `/opt/ros/dashing`
 - ROS 2 development tools (`sudo apt install python3-colcon-common-extensions python3-rosdep`)
 
+**This demo is using ROS 2 Dashing Patch Release 1.
+If Dashing Patch 1 has not been released, make sure to install your packages from the testing repository.**
+```bash
+sudo sh -c 'echo "deb [arch=amd64,arm64] http://packages.ros.org/ros2-testing/ubuntu `lsb_release -cs` main" > /etc/apt/sources.list.d/ros2-testing.list'
+sudo apt update
+```
+
 ### Source dashing environment
 ```bash
 source /opt/ros/dashing/setup.bash
