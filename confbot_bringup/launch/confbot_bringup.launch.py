@@ -29,25 +29,25 @@ def generate_launch_description():
             'urdf', 'confbot.urdf')
 
     return LaunchDescription([
-        Node(
-            package='robot_state_publisher',
-            node_executable='robot_state_publisher',
-            output='screen', arguments=[urdf]),
-        Node(
-            package='confbot_tools',
-            node_executable='safe_zone_publisher',
-            output='screen'),
+        # Node(
+        #     package='robot_state_publisher',
+        #     node_executable='robot_state_publisher',
+        #     output='screen', arguments=[urdf]),
+        # Node(
+        #     package='confbot_tools',
+        #     node_executable='safe_zone_publisher',
+        #     output='screen'),
         ComposableNodeContainer(
             node_name='confbot_driver_container',
             node_namespace='',
             package='rclcpp_components',
             node_executable='component_container',
             composable_node_descriptions=[
-                ComposableNode(
-                    package='confbot_driver',
-                    node_plugin='confbot_driver::nodes::ConfbotDriver',
-                    node_name='confbot_driver',
-                ),
+                # ComposableNode(
+                #     package='confbot_driver',
+                #     node_plugin='confbot_driver::nodes::ConfbotDriver',
+                #     node_name='confbot_driver',
+                # ),
                 ComposableNode(
                     package='confbot_driver',
                     node_plugin='confbot_driver::nodes::TwistPublisher',
@@ -55,39 +55,39 @@ def generate_launch_description():
                 ),
             ],
             output='screen',),
-        ComposableNodeContainer(
-            node_name='confbot_sensors_container',
-            node_namespace='',
-            package='rclcpp_components',
-            node_executable='component_container',
-            composable_node_descriptions=[
-                ComposableNode(
-                    package='confbot_sensors',
-                    node_plugin='confbot_sensors::nodes::ConfbotLaser',
-                    node_name='confbot_laser'),
-            ],
-            output='screen',),
-        # publishing static transforms for (caster)wheels
-        Node(
-            package='tf2_ros',
-            node_executable='static_transform_publisher',
-            node_name='static_tf_wheel_left',
-            arguments=['0', '0.55', '0.0', '0', '0', '0', 'base_link', 'wheel_l_link']),
-        Node(
-            package='tf2_ros',
-            node_executable='static_transform_publisher',
-            node_name='static_tf_wheel_right',
-            arguments=['0', '-0.55', '0.0', '0', '0', '0', 'base_link', 'wheel_r_link']),
-        Node(
-            package='tf2_ros',
-            node_executable='static_transform_publisher',
-            node_name='static_tf_caster_wheel_front',
-            arguments=[
-                '0.4', '0.0', '-0.05', '0', '0', '0', 'base_link', 'caster_wheel_front_link']),
-        Node(
-            package='tf2_ros',
-            node_executable='static_transform_publisher',
-            node_name='static_tf_caster_wheel_rear',
-            arguments=[
-                '-0.4', '0.0', '-0.05', '0', '0', '0', 'base_link', 'caster_wheel_rear_link']),
+        # ComposableNodeContainer(
+        #     node_name='confbot_sensors_container',
+        #     node_namespace='',
+        #     package='rclcpp_components',
+        #     node_executable='component_container',
+        #     composable_node_descriptions=[
+        #         ComposableNode(
+        #             package='confbot_sensors',
+        #             node_plugin='confbot_sensors::nodes::ConfbotLaser',
+        #             node_name='confbot_laser'),
+        #     ],
+        #     output='screen',),
+        # # publishing static transforms for (caster)wheels
+        # Node(
+        #     package='tf2_ros',
+        #     node_executable='static_transform_publisher',
+        #     node_name='static_tf_wheel_left',
+        #     arguments=['0', '0.55', '0.0', '0', '0', '0', 'base_link', 'wheel_l_link']),
+        # Node(
+        #     package='tf2_ros',
+        #     node_executable='static_transform_publisher',
+        #     node_name='static_tf_wheel_right',
+        #     arguments=['0', '-0.55', '0.0', '0', '0', '0', 'base_link', 'wheel_r_link']),
+        # Node(
+        #     package='tf2_ros',
+        #     node_executable='static_transform_publisher',
+        #     node_name='static_tf_caster_wheel_front',
+        #     arguments=[
+        #         '0.4', '0.0', '-0.05', '0', '0', '0', 'base_link', 'caster_wheel_front_link']),
+        # Node(
+        #     package='tf2_ros',
+        #     node_executable='static_transform_publisher',
+        #     node_name='static_tf_caster_wheel_rear',
+        #     arguments=[
+        #         '-0.4', '0.0', '-0.05', '0', '0', '0', 'base_link', 'caster_wheel_rear_link']),
     ])
