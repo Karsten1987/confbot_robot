@@ -1,0 +1,25 @@
+Hogging using launch and components
+
+Terminal1:
+ros2 launch confbot_bringup confbot_bringup.launch.py
+Ctrl+C
+
+Terminal 2:
+ros2 param set /twist_publisher speed 0.2
+ros2 component unload /confbot_driver_container 1
+
+Component and no launch (no hog):
+Terminal 1:
+ros2 component standalone confbot_driver confbot_driver::nodes::TwistPublisher
+
+Terminal 2:
+ros2 param set /twist_publisher speed 0.2
+
+Launch and no components (hog):
+Terminal 1:
+ros2 launch confbot_bringup confbot_bringup_no_components.launch.py
+
+Terminal 2:
+ros2 param set /twist_publisher speed 0.2
+Ctrl+C
+
