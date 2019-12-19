@@ -8,9 +8,9 @@ env:
     # - ROS_DISTRO="dashing" ROS_REPO=main
     # - ROS_DISTRO="eloquent" ROS_REPO=testing
     - ROS_DISTRO="eloquent" ROS_REPO=main
-    - DOCKER_IMAGE="osrf/ros2:nightly" UPSTREAM_WORKSPACE="additional_repos.repos"
+    - ROS_DISTRO="foxy" UPSTREAM_WORKSPACE="additional_repos.repos"
 
 install:
-  -  git clone --quiet --depth 1 https://github.com/mikaelarguedas/industrial_ci.git .industrial_ci -b nightly_foxy
+  -  git clone --quiet --depth 1 https://github.com/mikaelarguedas/industrial_ci.git .industrial_ci -b ici_default_nightly_image
 script:
   - .industrial_ci/travis.sh
