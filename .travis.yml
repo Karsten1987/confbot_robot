@@ -9,7 +9,7 @@ env:
     # - ROS_DISTRO="eloquent" ROS_REPO=testing
     # - ROS_DISTRO="eloquent" ROS_REPO=main
     # - DOCKER_IMAGE="osrf/ros2:nightly" UPSTREAM_WORKSPACE="additional_repos.repos"
-    - ROS_DISTRO="foxy" UPSTREAM_WORKSPACE="additional_repos.repos"
+    - ROS_DISTRO="foxy" UPSTREAM_WORKSPACE="additional_repos.repos" ROS_REPO="main" # or any repo not overriding DEFAULT_DOCKER_IMAGE
 
 install:
   -  git clone --quiet --depth 1 https://github.com/mikaelarguedas/industrial_ci.git .industrial_ci -b ici_default_nightly_image
